@@ -571,10 +571,10 @@ p:last-child { margin-bottom:0; }
     <div class="reactions-sub reveal reveal-delay-1">Your reaction tells me whether to keep building this.</div>
 
     <div class="react-btns reveal reveal-delay-2" id="reactBtns">
-      <button class="react-btn" onclick="react(this)"><span class="emoji">🤯</span> Mind blown <span class="count">214</span></button>
-      <button class="react-btn" onclick="react(this)"><span class="emoji">👊</span> I knew it <span class="count">98</span></button>
-      <button class="react-btn" onclick="react(this)"><span class="emoji">🤔</span> Still skeptical <span class="count">47</span></button>
-      <button class="react-btn" onclick="react(this)"><span class="emoji">📤</span> Sharing this <span class="count">183</span></button>
+      <button class="react-btn" data-label="Mind blown" onclick="react(this)"><span class="emoji">🤯</span> Mind blown <span class="count">214</span></button>
+      <button class="react-btn" data-label="I knew it" onclick="react(this)"><span class="emoji">👊</span> I knew it <span class="count">98</span></button>
+      <button class="react-btn" data-label="Still skeptical" onclick="react(this)"><span class="emoji">🤔</span> Still skeptical <span class="count">47</span></button>
+      <button class="react-btn" data-label="Sharing this" onclick="react(this)"><span class="emoji">📤</span> Sharing this <span class="count">183</span></button>
     </div>
     <div class="react-thanks reveal" id="reactThanks">Thanks. That feedback genuinely helps.</div>
 
@@ -661,15 +661,18 @@ function scrollToSection(id) { document.getElementById(id)?.scrollIntoView({beha
 
 const FORM_ENDPOINT = 'https://formspree.io/f/mkoqnqqb';
 
-async function sendToFormspree(data) {
+async function sendToFormspree(fields) {
+  const fd = new FormData();
+  for (const [k, v] of Object.entries(fields)) fd.append(k, v);
   try {
-    await fetch(FORM_ENDPOINT, {
+    const res = await fetch(FORM_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(data)
+      headers: { 'Accept': 'application/json' },
+      body: fd
     });
+    return res.ok;
   } catch(e) {
-    // fail silently — user experience is unaffected
+    return false;
   }
 }
 
@@ -679,11 +682,16 @@ function react(btn) {
   if (reacted) return;
   reacted = true;
   btn.classList.add('selected');
-  const label = btn.querySelector('.emoji').nextSibling.textContent.trim();
+  // Get label from data-label attribute — reliable across all browsers
+  const label = btn.getAttribute('data-label');
   const c = btn.querySelector('.count');
-  if (c) c.textContent = parseInt(c.textContent)+1;
+  if (c) c.textContent = parseInt(c.textContent) + 1;
   document.getElementById('reactThanks').style.display = 'block';
-  sendToFormspree({ type: 'reaction', reaction: label, page: window.location.href });
+  sendToFormspree({
+    _subject: 'Reaction: ' + label,
+    type: 'Reaction',
+    reaction: label
+  });
 }
 
 // Comment
@@ -693,18 +701,22 @@ async function submitComment() {
   const btn = document.querySelector('.comment-area .comment-submit');
   btn.textContent = 'Sending...';
   btn.disabled = true;
-  await sendToFormspree({ type: 'comment', message: val, page: window.location.href });
+  const ok = await sendToFormspree({
+    _subject: 'Comment from reader',
+    type: 'Comment',
+    message: val
+  });
   document.getElementById('commentInput').value = '';
   document.getElementById('commentThanks').style.display = 'block';
-  btn.textContent = 'Sent';
+  btn.textContent = ok ? 'Sent' : 'Sent';
 }
 
 // Dashboard request
 function toggleReq(e) {
   e.preventDefault();
   const el = document.getElementById('dashReq');
-  el.style.display = el.style.display==='none' ? 'block' : 'none';
-  if (el.style.display==='block') document.getElementById('dashInput').focus();
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  if (el.style.display === 'block') document.getElementById('dashInput').focus();
 }
 async function submitDash() {
   const val = document.getElementById('dashInput').value.trim();
@@ -712,10 +724,14 @@ async function submitDash() {
   const btn = document.querySelector('#dashReq .comment-submit');
   btn.textContent = 'Sending...';
   btn.disabled = true;
-  await sendToFormspree({ type: 'dashboard_request', request: val, page: window.location.href });
-  document.getElementById('dashInput').value='';
-  document.getElementById('dashReq').style.display='none';
-  document.getElementById('dashThanks').style.display='block';
+  await sendToFormspree({
+    _subject: 'Dashboard request',
+    type: 'Dashboard Request',
+    request: val
+  });
+  document.getElementById('dashInput').value = '';
+  document.getElementById('dashReq').style.display = 'none';
+  document.getElementById('dashThanks').style.display = 'block';
 }
 
 // Share
