@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Architecture of Power: A Complete Map</title>
+<meta name="description" content="14 layers of how global financial power actually works. From Rome to the Iran war. For people who want to see the whole board.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,800;1,9..144,300;1,9..144,600&family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap');
+
+:root {
+  --ink: #0e0e0e;
+  --paper: #f5f1ea;
+  --paper-warm: #ede8df;
+  --paper-dark: #e3ddd2;
+  --red: #b83025;
+  --red-soft: rgba(184,48,37,0.09);
+  --gold: #8b6f2e;
+  --gold-soft: rgba(139,111,46,0.12);
+  --blue: #1c3f6e;
+  --blue-soft: rgba(28,63,110,0.08);
+  --dark: #0c0c0c;
+  --dark-2: #141414;
+  --dark-3: #1c1c1c;
+  --dark-text: rgba(255,255,255,0.85);
+  --dark-muted: rgba(255,255,255,0.48);
+  --dark-faint: rgba(255,255,255,0.22);
+  --dark-line: rgba(255,255,255,0.07);
+  --border: rgba(0,0,0,0.09);
+  --max: 720px;
+  --wide: 1000px;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background: var(--dark);
+  color: var(--dark-text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 18px;
+  line-height: 1.8;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* PROGRESS */
+#progress {
+  position: fixed; top:0; left:0; height:2px;
+  background: linear-gradient(90deg, var(--red), var(--gold));
+  width: 0%; z-index:1000; transition: width 0.1s linear;
+}
+
+/* NAV */
+nav {
+  position: fixed; top:0; left:0; right:0;
+  padding: 16px 28px; display:flex; justify-content:space-between; align-items:center;
+  z-index: 200; transition: background 0.4s, box-shadow 0.4s;
+}
+nav.scrolled {
+  background: rgba(12,12,12,0.94); backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 var(--dark-line);
+}
+.nav-brand {
+  font-family: 'Fraunces', serif; font-size: 14px; color: var(--dark-text);
+  opacity:0; transition: opacity 0.3s; letter-spacing:0.3px;
+}
+nav.scrolled .nav-brand { opacity:1; }
+.nav-right { display:flex; gap:8px; align-items:center; }
+.nav-btn {
+  font-size:11px; letter-spacing:1.2px; text-transform:uppercase;
+  color: var(--dark-muted); cursor:pointer; border:1px solid var(--dark-line);
+  padding: 7px 14px; background:none; font-family:'DM Sans',sans-serif;
+  transition: all 0.2s; text-decoration:none; display:inline-block; white-space:nowrap;
+}
+.nav-btn:hover { background: rgba(255,255,255,0.06); color: var(--dark-text); }
+.nav-btn.red { background:var(--red); color:#fff; border-color:var(--red); }
+.nav-btn.red:hover { opacity:0.85; }
+
+/* CHAPTER DOTS */
+.chapter-dots {
+  position: fixed; right:20px; top:50%; transform:translateY(-50%);
+  display:flex; flex-direction:column; gap:10px; z-index:200;
+}
+.c-dot {
+  width:6px; height:6px; border-radius:50%;
+  background: rgba(255,255,255,0.15); cursor:pointer; transition:all 0.3s;
+  position:relative;
+}
+.c-dot::after {
+  content: attr(data-label);
+  position:absolute; right:16px; top:50%; transform:translateY(-50%);
+  font-size:10px; letter-spacing:0.8px; color:var(--dark-muted);
+  white-space:nowrap; opacity:0; transition:opacity 0.2s;
+  font-family:'DM Sans',sans-serif; text-transform:uppercase;
+}
+.c-dot:hover::after { opacity:1; }
+.c-dot.active { background:var(--red); transform:scale(1.6); }
+.c-dot:hover { background:rgba(255,255,255,0.45); }
+
+/* SECTIONS */
+section {
+  min-height: 100vh; display:flex; flex-direction:column; justify-content:center;
+  padding: 100px 28px 90px; position:relative;
+}
+.container { max-width:var(--max); margin:0 auto; width:100%; }
+.container-wide { max-width:var(--wide); margin:0 auto; width:100%; }
+
+/* LIGHT SECTIONS */
+section.light {
+  background: var(--paper);
+  color: var(--ink);
+}
+section.light-warm { background: var(--paper-warm); color: var(--ink); }
+section.dark-2 { background: var(--dark-2); }
+section.dark-3 { background: var(--dark-3); }
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(22px); }
+  to { opacity:1; transform:translateY(0); }
+}
+@keyframes fadeIn { from {opacity:0} to {opacity:1} }
+@keyframes scrollPulse {
+  0%,100%{transform:scaleY(1);opacity:0.3} 50%{transform:scaleY(0.4);opacity:0.1}
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+.reveal {
+  opacity:0; transform:translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* TYPOGRAPHY SYSTEM */
+.eyebrow {
+  font-size:11px; letter-spacing:3px; text-transform:uppercase;
+  color: var(--red); margin-bottom:20px; font-weight:400;
+}
+.eyebrow.gold { color: var(--gold); }
+.eyebrow.muted { color: var(--dark-muted); }
+.eyebrow.ink { color: #888; }
+
+h1, h2, h3 { font-family:'Fraunces', serif; font-weight:600; line-height:1.15; }
+
+.display {
+  font-family:'Fraunces', serif; font-size:clamp(42px,7vw,82px);
+  line-height:1.05; font-weight:800; letter-spacing:-1.5px;
+}
+.headline {
+  font-family:'Fraunces', serif; font-size:clamp(32px,5vw,56px);
+  line-height:1.12; font-weight:600; letter-spacing:-0.8px;
+}
+.subhead {
+  font-family:'Fraunces', serif; font-size:clamp(22px,3vw,34px);
+  line-height:1.25; font-weight:300; font-style:italic;
+}
+
+.body-lg { font-size:19px; line-height:1.78; font-weight:300; }
+.body-md { font-size:17px; line-height:1.75; }
+.body-sm { font-size:15px; line-height:1.7; }
+.caption { font-size:12px; letter-spacing:0.5px; color:var(--dark-muted); }
+
+p + p { margin-top:1.2em; }
+
+/* DIVIDERS */
+.divider {
+  width:40px; height:2px; background:var(--red); margin:28px 0;
+}
+.divider.gold { background:var(--gold); }
+.divider.center { margin-left:auto; margin-right:auto; }
+
+/* STAT BLOCKS */
+.stat-block {
+  border-left: 2px solid var(--red); padding-left:20px; margin:28px 0;
+}
+.stat-num {
+  font-family:'Fraunces',serif; font-size:clamp(38px,6vw,64px);
+  font-weight:800; line-height:1; letter-spacing:-1px; color:var(--dark-text);
+}
+.stat-label { font-size:13px; letter-spacing:1px; text-transform:uppercase; color:var(--dark-muted); margin-top:6px; }
+
+.stat-block.light-mode .stat-num { color:var(--ink); }
+.stat-block.light-mode .stat-label { color:#888; }
+
+/* QUOTE */
+blockquote {
+  border-left:2px solid var(--gold); padding:16px 0 16px 24px;
+  margin:28px 0;
+  font-family:'Fraunces',serif; font-style:italic; font-weight:300;
+  font-size:clamp(18px,2.5vw,24px); line-height:1.5;
+  color: var(--dark-text);
+}
+blockquote cite {
+  display:block; font-size:12px; letter-spacing:1px; text-transform:uppercase;
+  font-style:normal; font-family:'DM Sans',sans-serif;
+  color:var(--dark-muted); margin-top:12px;
+}
+section.light blockquote { color:var(--ink); }
+section.light blockquote cite { color:#888; }
+
+/* CALLOUT */
+.callout {
+  background:var(--red-soft); border:1px solid rgba(184,48,37,0.18);
+  padding:22px 24px; margin:28px 0;
+  font-size:16px; line-height:1.7;
+}
+.callout.gold { background:var(--gold-soft); border-color:rgba(139,111,46,0.22); }
+.callout.blue { background:var(--blue-soft); border-color:rgba(28,63,110,0.18); }
+section.light .callout { background:rgba(184,48,37,0.06); }
+
+/* TIMELINE */
+.timeline { margin:36px 0; }
+.timeline-item {
+  display:grid; grid-template-columns:80px 1fr; gap:0 20px; margin-bottom:28px;
+  position:relative;
+}
+.timeline-item::before {
+  content:''; position:absolute; left:79px; top:8px; bottom:-28px;
+  width:1px; background:var(--dark-line);
+}
+.timeline-item:last-child::before { display:none; }
+.timeline-year {
+  font-family:'Fraunces',serif; font-size:14px; font-weight:600;
+  color:var(--red); padding-top:2px; text-align:right;
+}
+.timeline-content {}
+.timeline-title {
+  font-family:'Fraunces',serif; font-size:17px; font-weight:600;
+  margin-bottom:5px; line-height:1.3;
+}
+.timeline-text { font-size:15px; line-height:1.65; color:var(--dark-muted); }
+section.light .timeline-item::before { background:var(--border); }
+section.light .timeline-year { color:var(--red); }
+section.light .timeline-text { color:#666; }
+
+/* GRID CARDS */
+.card-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:1px; background:var(--dark-line); margin:28px 0;
+}
+.card-grid.light-bg { background:var(--border); }
+.card {
+  background:var(--dark-2); padding:24px;
+  transition:background 0.2s;
+}
+.card:hover { background:var(--dark-3); }
+.card-title {
+  font-family:'Fraunces',serif; font-size:17px; font-weight:600;
+  margin-bottom:8px; line-height:1.3; color:var(--dark-text);
+}
+.card-text { font-size:14px; line-height:1.65; color:var(--dark-muted); }
+.card-tag {
+  display:inline-block; font-size:10px; letter-spacing:1.2px; text-transform:uppercase;
+  color:var(--red); margin-bottom:10px; font-family:'DM Sans',sans-serif;
+}
+
+/* LIGHT CARDS */
+.card-grid-light { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1px; background:var(--border); margin:28px 0; }
+.card-light { background:var(--paper); padding:22px; }
+.card-light:hover { background:var(--paper-dark); }
+.card-light .card-title { color:var(--ink); }
+.card-light .card-text { color:#666; }
+.card-light .card-tag { color:var(--red); }
+
+/* METHOD PILLS */
+.pill-grid { display:flex; flex-wrap:wrap; gap:8px; margin:24px 0; }
+.pill {
+  font-size:12px; letter-spacing:0.8px; text-transform:uppercase;
+  padding:7px 14px; border:1px solid var(--dark-line);
+  color:var(--dark-muted); cursor:default; transition:all 0.2s;
+  font-family:'DM Sans',sans-serif;
+}
+.pill.military { border-color:rgba(184,48,37,0.35); color:var(--red); }
+.pill.economic { border-color:rgba(139,111,46,0.35); color:var(--gold); }
+.pill.political { border-color:rgba(28,63,110,0.4); color:#5a8fd4; }
+.pill.cultural { border-color:rgba(100,160,100,0.4); color:#7ab87a; }
+.pill.tech { border-color:rgba(160,100,200,0.4); color:#b07ad4; }
+.pill:hover { background:rgba(255,255,255,0.05); }
+
+/* TIER SYSTEM */
+.tier {
+  border:1px solid var(--dark-line); padding:24px; margin-bottom:12px;
+  transition:border-color 0.2s, background 0.2s; cursor:default;
+}
+.tier:hover { border-color:rgba(255,255,255,0.15); background:rgba(255,255,255,0.02); }
+.tier-header { display:flex; align-items:baseline; gap:16px; margin-bottom:10px; }
+.tier-num {
+  font-family:'Fraunces',serif; font-size:32px; font-weight:800;
+  color:var(--red); line-height:1; flex-shrink:0;
+}
+.tier-name { font-family:'Fraunces',serif; font-size:20px; font-weight:600; }
+.tier-examples { font-size:14px; color:var(--dark-muted); line-height:1.6; }
+
+/* THINKER CARDS */
+.thinker-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px; margin:28px 0; }
+.thinker {
+  background:var(--dark-3); border:1px solid var(--dark-line);
+  padding:28px; transition:border-color 0.2s;
+}
+.thinker:hover { border-color:rgba(255,255,255,0.15); }
+.thinker-name { font-family:'Fraunces',serif; font-size:22px; font-weight:600; margin-bottom:4px; }
+.thinker-dates { font-size:12px; letter-spacing:1px; color:var(--dark-muted); margin-bottom:16px; }
+.thinker-concept {
+  font-size:12px; letter-spacing:1.2px; text-transform:uppercase;
+  color:var(--gold); margin-bottom:12px;
+}
+.thinker-text { font-size:15px; line-height:1.7; color:var(--dark-muted); }
+.thinker blockquote {
+  font-size:15px; margin:16px 0 8px; padding:12px 0 12px 18px;
+}
+
+/* TWO COL */
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start; }
+.two-col.thirds { grid-template-columns:1fr 2fr; }
+@media(max-width:680px) {
+  .two-col, .two-col.thirds { grid-template-columns:1fr; gap:24px; }
+}
+
+/* CHAPTER HEADER */
+.chapter-header { margin-bottom:56px; }
+.chapter-num {
+  font-family:'Fraunces',serif; font-size:90px; font-weight:800;
+  line-height:1; opacity:0.06; position:absolute; top:80px; right:28px;
+  letter-spacing:-4px;
+}
+
+/* SCROLL INDICATOR */
+.scroll-hint {
+  position:absolute; bottom:32px; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  color:var(--dark-faint); font-size:10px; letter-spacing:2px; text-transform:uppercase;
+}
+.scroll-line { width:1px; height:36px; background:var(--dark-faint); animation:scrollPulse 2.2s ease infinite; }
+
+/* HERO */
+#hero { background:var(--dark); align-items:center; text-align:center; overflow:hidden; }
+#hero::before {
+  content:''; position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(184,48,37,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(28,63,110,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(139,111,46,0.06) 0%, transparent 60%);
+  pointer-events:none;
+}
+.hero-label {
+  font-size:11px; letter-spacing:4px; text-transform:uppercase; color:var(--red);
+  margin-bottom:32px; opacity:0; animation:fadeUp 0.8s ease 0.3s forwards;
+}
+.hero-display {
+  font-family:'Fraunces',serif; font-size:clamp(56px,12vw,140px);
+  font-weight:800; line-height:0.92; letter-spacing:-3px;
+  color:#fff; opacity:0; animation:fadeUp 1s ease 0.6s forwards;
+}
+.hero-display .accent { color:var(--red); }
+.hero-display .gold { color:var(--gold); }
+.hero-unit {
+  font-size:clamp(14px,2vw,18px); color:var(--dark-muted); margin-top:18px;
+  font-weight:300; opacity:0; animation:fadeUp 0.8s ease 1s forwards; letter-spacing:0.5px;
+}
+.hero-title {
+  font-family:'Fraunces',serif; font-size:clamp(20px,3vw,30px);
+  color:rgba(255,255,255,0.7); margin-top:48px; line-height:1.4; font-weight:300; font-style:italic;
+  opacity:0; animation:fadeUp 0.8s ease 1.3s forwards;
+  max-width:580px; margin-left:auto; margin-right:auto;
+}
+.hero-tagline {
+  font-size:14px; color:var(--dark-faint); margin-top:16px;
+  letter-spacing:0.5px; opacity:0; animation:fadeUp 0.8s ease 1.6s forwards;
+}
+.hero-cta {
+  margin-top:48px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;
+  opacity:0; animation:fadeUp 0.8s ease 1.9s forwards;
+}
+.cta-btn {
+  font-size:12px; letter-spacing:1.5px; text-transform:uppercase;
+  padding:13px 26px; text-decoration:none; font-family:'DM Sans',sans-serif;
+  transition:all 0.2s; display:inline-block;
+}
+.cta-btn.primary { background:var(--red); color:#fff; }
+.cta-btn.primary:hover { background:#9a2519; }
+.cta-btn.secondary { border:1px solid var(--dark-line); color:var(--dark-muted); }
+.cta-btn.secondary:hover { background:rgba(255,255,255,0.05); color:var(--dark-text); }
+
+/* LIVE BADGE */
+.live-badge {
+  display:inline-flex; align-items:center; gap:7px;
+  font-size:10px; letter-spacing:2px; text-transform:uppercase;
+  color:var(--red); margin-bottom:24px;
+  opacity:0; animation:fadeUp 0.6s ease 0.1s forwards;
+}
+.live-dot { width:6px; height:6px; border-radius:50%; background:var(--red); animation:pulse 1.8s ease infinite; flex-shrink:0; }
+
+/* CHAPTER INTRO */
+.chapter-intro { font-family:'Fraunces',serif; font-size:clamp(22px,3.5vw,34px); font-weight:300; font-style:italic; line-height:1.4; margin-bottom:40px; color:var(--dark-muted); }
+section.light .chapter-intro { color:#555; }
+
+/* NUMBERED LIST */
+.numbered-list { counter-reset:item; margin:24px 0; }
+.numbered-item {
+  display:grid; grid-template-columns:32px 1fr; gap:0 16px;
+  margin-bottom:20px; counter-increment:item;
+}
+.numbered-item::before {
+  content:counter(item,decimal-leading-zero);
+  font-family:'Fraunces',serif; font-size:13px; font-weight:600;
+  color:var(--red); padding-top:2px;
+}
+.numbered-text { font-size:16px; line-height:1.7; color:var(--dark-muted); }
+section.light .numbered-text { color:#555; }
+
+/* EVIDENCE TAG */
+.evidence {
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:11px; letter-spacing:0.8px; text-transform:uppercase;
+  background:rgba(255,255,255,0.04); padding:4px 10px;
+  color:var(--dark-faint); margin-right:8px; margin-bottom:8px;
+}
+.evidence.documented { color:rgba(122,184,122,0.8); background:rgba(122,184,122,0.06); }
+.evidence.inference { color:rgba(180,180,80,0.8); background:rgba(180,180,80,0.06); }
+.evidence::before { content:''; width:5px; height:5px; border-radius:50%; background:currentColor; flex-shrink:0; }
+
+/* INDIA MAP PLACEHOLDER */
+.position-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--dark-line); margin:28px 0; }
+.position-cell { background:var(--dark-2); padding:20px 18px; }
+.position-cell:hover { background:var(--dark-3); }
+.position-role { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--dark-faint); margin-bottom:8px; }
+.position-title { font-family:'Fraunces',serif; font-size:18px; font-weight:600; margin-bottom:8px; }
+.position-desc { font-size:13px; line-height:1.6; color:var(--dark-muted); }
+
+/* ALTERNATIVE EXAMPLES */
+.alt-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; margin:28px 0; }
+.alt-card {
+  border:1px solid var(--dark-line); padding:26px;
+  transition:border-color 0.2s, background 0.2s;
+}
+.alt-card:hover { border-color:rgba(122,184,122,0.35); background:rgba(122,184,122,0.04); }
+.alt-name { font-family:'Fraunces',serif; font-size:20px; font-weight:600; margin-bottom:4px; }
+.alt-where { font-size:11px; letter-spacing:1px; text-transform:uppercase; color:var(--dark-faint); margin-bottom:14px; }
+.alt-text { font-size:14px; line-height:1.7; color:var(--dark-muted); }
+.alt-lesson { font-size:13px; color:rgba(122,184,122,0.8); margin-top:12px; font-style:italic; }
+
+/* PATH OPTIONS */
+.path-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin:28px 0; }
+@media(max-width:600px) { .path-grid { grid-template-columns:1fr; } }
+.path-option { border:1px solid var(--dark-line); padding:22px; transition:all 0.2s; }
+.path-option:hover { border-color:rgba(255,255,255,0.18); background:rgba(255,255,255,0.02); }
+.path-num { font-family:'Fraunces',serif; font-size:36px; font-weight:800; color:var(--red); opacity:0.5; line-height:1; margin-bottom:10px; }
+.path-name { font-family:'Fraunces',serif; font-size:18px; font-weight:600; margin-bottom:8px; }
+.path-text { font-size:14px; line-height:1.65; color:var(--dark-muted); }
+.path-cost { font-size:12px; color:rgba(184,48,37,0.7); margin-top:10px; font-style:italic; }
+
+/* RESPONSIVE */
+@media(max-width:700px) {
+  .chapter-dots { display:none; }
+  nav { padding:14px 16px; }
+  section { padding:90px 18px 70px; }
+  .card-grid { grid-template-columns:1fr; }
+  .position-grid { grid-template-columns:1fr; }
+  .thinker-grid { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav id="nav">
+  <div class="nav-brand">Architecture of Power</div>
+  <div class="nav-right">
+    <a href="index.html" class="nav-btn">Story Page</a>
+    <a href="#what-now" class="nav-btn red">What Now</a>
+  </div>
+</nav>
+
+<div class="chapter-dots" id="dots">
+  <div class="c-dot" data-section="hero" data-label="Start" onclick="scrollTo('hero')"></div>
+  <div class="c-dot" data-section="s1" data-label="Foundation" onclick="scrollTo('s1')"></div>
+  <div class="c-dot" data-section="s2" data-label="Mechanism" onclick="scrollTo('s2')"></div>
+  <div class="c-dot" data-section="s3" data-label="Toolkit" onclick="scrollTo('s3')"></div>
+  <div class="c-dot" data-section="s4" data-label="Chessboard" onclick="scrollTo('s4')"></div>
+  <div class="c-dot" data-section="s5" data-label="The Wars" onclick="scrollTo('s5')"></div>
+  <div class="c-dot" data-section="s6" data-label="India" onclick="scrollTo('s6')"></div>
+  <div class="c-dot" data-section="s7" data-label="Who Runs It" onclick="scrollTo('s7')"></div>
+  <div class="c-dot" data-section="s8" data-label="Enclosure" onclick="scrollTo('s8')"></div>
+  <div class="c-dot" data-section="s9" data-label="Fish in Water" onclick="scrollTo('s9')"></div>
+  <div class="c-dot" data-section="s10" data-label="Thinkers" onclick="scrollTo('s10')"></div>
+  <div class="c-dot" data-section="s11" data-label="Alternatives" onclick="scrollTo('s11')"></div>
+  <div class="c-dot" data-section="s12" data-label="Frontiers" onclick="scrollTo('s12')"></div>
+  <div class="c-dot" data-section="what-now" data-label="What Now" onclick="scrollTo('what-now')"></div>
+</div>
+
+<!-- ============================================================
+  HERO
+============================================================ -->
+<section id="hero">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="live-badge"><span class="live-dot"></span>Iran War Active: Day 8</div>
+    <div class="hero-display">
+      <div>$<span class="accent">195</span></div>
+      <div style="color:rgba(255,255,255,0.18)">trillion</div>
+    </div>
+    <div class="hero-unit">The gap between what finance claims and what the world produces</div>
+    <div class="hero-title">That gap is the reason for every war you are watching.</div>
+    <div class="hero-tagline">14 layers. 500 years. The complete map.</div>
+    <div class="hero-cta">
+      <a href="#s1" class="cta-btn primary">Read from the beginning</a>
+      <a href="#s4" class="cta-btn secondary">Jump to the chessboard</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ============================================================
+  01: THE FOUNDATION
+============================================================ -->
+<section id="s1" class="light">
+  <div class="chapter-num">01</div>
+  <div class="container">
+    <div class="chapter-header reveal">
+      <div class="eyebrow ink">Chapter 01</div>
+      <h2 class="headline" style="color:var(--ink)">The Foundation:<br>500 Years of the Same Story</h2>
+      <div class="divider"></div>
+      <p class="chapter-intro">Before you can understand Iran, Gaza, or India's silence, you need to understand where this all began. Not 2001. Not 1947. Not even 1944. The story starts much earlier.</p>
+    </div>
+
+    <div class="reveal">
+      <p class="body-lg" style="color:#444">Every empire in history has run on two things working together: military force and financial control. You cannot sustain one without the other. This is not a modern insight. It is the oldest pattern in civilization.</p>
+    </div>
+
+    <div class="timeline reveal" style="margin-top:48px">
+      <div class="timeline-item">
+        <div class="timeline-year">Rome</div>
+        <div class="timeline-content">
+          <div class="timeline-title" style="color:var(--ink)">Finance and Empire Were Always Linked</div>
+          <div class="timeline-text">Rome did not just conquer. It extracted taxes, controlled trade routes, and maintained a currency. When Roman currency debased, the empire weakened. When the money system collapsed, the military followed. The financial system was the nervous system of the empire.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1397</div>
+        <div class="timeline-content">
+          <div class="timeline-title" style="color:var(--ink)">The Medici Invent Modern Finance</div>
+          <div class="timeline-text">The Medici family in Florence invented letters of credit, interest-bearing loans, and cross-border money transfer. Suddenly whoever controlled money flows could fund kings, control trade, and shape political outcomes without ever holding a sword. The pattern of financial power shaping political power was born.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1600s</div>
+        <div class="timeline-content">
+          <div class="timeline-title" style="color:var(--ink)">The East India Company: Finance as Empire</div>
+          <div class="timeline-text">Britain did not colonize India through military force alone. The East India Company was a joint stock company. Investors in London funded conquest. India went from 23% of world GDP to 4% by the time British rule ended. Colonialism was as much a financial project as a military one. The infrastructure built was designed to extract resources, not to develop India.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1857</div>
+        <div class="timeline-content">
+          <div class="timeline-title" style="color:var(--ink)">Divide and Rule Becomes Policy</div>
+          <div class="timeline-text">After the 1857 Mutiny, Britain systematically studied what united Indians against them. The result: Separate electorates for Muslims in 1909, active cultivation of the Muslim League as a counterweight to Congress, and Jinnah encouraged whenever Congress grew too powerful. The 1947 partition, drawn by Cyril Radcliffe in five weeks having never visited the subcontinent, split communities, irrigation systems, and railways. One million died. 15 million displaced. Two nuclear-armed hostile neighbors created. Weapons companies profiting ever since.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1944</div>
+        <div class="timeline-content">
+          <div class="timeline-title" style="color:var(--ink)">Bretton Woods: The Architecture Is Built</div>
+          <div class="timeline-text">As WW2 ended, the Allied powers designed the post-war financial order. The US dollar was made the world's reserve currency. The IMF and World Bank were created, both headquartered in Washington. Every country needed dollars to trade internationally. America could print dollars and receive real goods in return. Every other nation had to produce something. French President de Gaulle called this America's "exorbitant privilege."</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1971</div>
+        <div class="timeline-content">
+          <div class="timeline-title" style="color:var(--ink)">Nixon Ends Gold Convertibility. The Dollar Gets More Powerful.</div>
+          <div class="timeline-text">Nixon ended dollar-gold convertibility. The dollar was now backed by nothing except trust and American power. This should have destroyed dollar dominance. Instead, Kissinger negotiated the petrodollar deal with Saudi Arabia: all oil priced in dollars, surplus invested in US Treasury bonds, American security guarantees in return. OPEC followed. Every country that needed oil needed dollars. Dollar dominance was now backed by oil.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout reveal" style="margin-top:36px">
+      <strong>The key insight:</strong> This is why every country that tried to price oil outside the dollar system faced extraordinary consequences. Iraq switched to Euros in 2000 — invaded in 2003. Libya planned a gold-backed African currency — destroyed in 2011. Iran has priced oil outside dollars for decades — at war right now.
+      <div style="margin-top:8px">
+        <span class="evidence documented">Documented: Iraq Euro oil switch, 2000</span>
+        <span class="evidence documented">Documented: Gaddafi gold dinar plan</span>
+        <span class="evidence documented">Documented: Petrodollar agreement, 1974</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+  02: THE MECHANISM
+============================================================ -->
+<section id="s2" class="dark-2">
+  <div class="chapter-num" style="color:rgba(255,255,255,0.04)">02</div>
+  <div class="container">
+    <div class="chapter-header reveal">
+      <div class="eyebrow">Chapter 02</div>
+      <h2 class="headline">The Mechanism:<br>Why Capital Must Expand or Die</h2>
+      <div class="divider"></div>
+      <p class="chapter-intro" style="color:var(--dark-muted)">The $195 trillion gap is not an accident. It is the inevitable product of a system with a fundamental mathematical property: capital must grow, or it collapses.</p>
+    </div>
+
+    <div class="reveal">
+      <p class="body-lg">Economist David Harvey calls this <em>overaccumulation.</em> The basic logic is simple. Capital accumulates in financial centers faster than productive investment opportunities exist. You cannot simply hold money. It must generate more money.</p>
+      <p class="body-lg">As capitalism spreads globally and markets saturate, profit rates fall. Capital must find new territories. Harvey calls this the <strong>spatial fix</strong>: solving the crisis of overaccumulation by geographically expanding into new territories.</p>
+    </div>
+
+    <div class="two-col" style="margin-top:48px">
+      <div class="reveal">
+        <div class="stat-block">
+          <div class="stat-num">$300T</div>
+          <div class="stat-label">Global financial assets</div>
+        </div>
+        <div class="stat-block" style="margin-top:20px;border-color:var(--gold)">
+          <div class="stat-num" style="color:var(--gold)">$110T</div>
+          <div class="stat-label">Global GDP (actual production)</div>
+        </div>
+        <div class="stat-block" style="margin-top:20px;border-color:var(--dark-muted)">
+          <div class="stat-num" style="color:var(--dark-muted)">$195T</div>
+          <div class="stat-label">The gap — claims with nowhere real to go</div>
+        </div>
+      </div>
+      <div class="reveal">
+        <p style="color:var(--dark-muted);font-size:16px;line-height:1.75">Financial assets are claims on future real production. When claims are three times the current productive capacity, the math is unsustainable. The system can only resolve this in three ways:</p>
+        <div class="numbered-list" style="margin-top:20px">
+          <div class="numbered-item">
+            <div class="numbered-text"><strong style="color:var(--dark-text)">Enormous real growth:</strong> Find new territories, resources, and markets. This is what wars are for.</div>
+          </div>
+          <div class="numbered-item">
+            <div class="numbered-text"><strong style="color:var(--dark-text)">Inflation:</strong> Print enough money to nominally close the gap. This destroys the value of financial assets.</div>
+          </div>
+          <div class="numbered-item">
+            <div class="numbered-text"><strong style="color:var(--dark-text)">Collapse and reset:</strong> The system implodes. Debts cancelled. Assets written down. At $300 trillion scale, this would be the largest economic catastrophe in human history.</div>
+          </div>
+        </div>
+        <p style="color:var(--dark-muted);font-size:15px;margin-top:16px;font-style:italic">The elites running the system know this. The wars, the chaos, the acceleration — these are attempts to avoid Option 3.</p>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:48px">
+      <div class="eyebrow gold">The Historical Pattern</div>
+      <p style="color:var(--dark-muted);font-size:16px;margin-bottom:20px">Every time capitalism has faced saturation it has opened new territories. This cycle has been running continuously for 500 years:</p>
+      <div class="card-grid">
+        <div class="card"><div class="card-tag">1870s–1900s</div><div class="card-title">Scramble for Africa</div><div class="card-text">Africa carved up by European powers. 14 nations, 1884 Berlin Conference. Not one African invited.</div></div>
+        <div class="card"><div class="card-tag">Post–1918</div><div class="card-title">Middle East Opened</div><div class="card-text">Ottoman collapse. Sykes-Picot lines drawn. British and French mandates. The borders you see today.</div></div>
+        <div class="card"><div class="card-tag">Post–1945</div><div class="card-title">Decolonized Nations Opened</div><div class="card-text">Independence given with strings. IMF/World Bank integration. Dollar system dependency built in.</div></div>
+        <div class="card"><div class="card-tag">1990s</div><div class="card-title">Soviet Collapse Opened</div><div class="card-text">Eastern Europe, Central Asia, Russia itself briefly opened to Western capital. Oligarchs and shock therapy.</div></div>
+        <div class="card"><div class="card-tag">2000s</div><div class="card-title">Iraq, Afghanistan</div><div class="card-text">Opened by force. Oil contracts. Reconstruction deals. Halliburton: $39.5 billion. New dependencies created.</div></div>
+        <div class="card" style="border-left:2px solid var(--red)"><div class="card-tag" style="color:var(--red)">Now — 2026</div><div class="card-title">Iran, Central Asia</div><div class="card-text">The current frontier. $5 trillion in untapped resources. The gateway: Iran. The prize: Central Asia.</div></div>
+      </div>
+    </div>
+
+    <blockquote class="reveal" style="margin-top:36px">
+      "Finance capital backed by state power amounts to accumulation by other means."
+      <cite>David Harvey, The New Imperialism, 2003</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ============================================================
+  03: THE TOOLKIT
+============================================================ -->
+<section id="s3" class="light-warm">
+  <div class="chapter-num" style="color:rgba(0,0,0,0.04)">03</div>
+  <div class="container-wide">
+    <div class="chapter-header reveal">
+      <div class="eyebrow ink">Chapter 03</div>
+      <h2 class="headline" style="color:var(--ink)">The Toolkit:<br>20+ Ways to Open a Territory</h2>
+      <div class="divider"></div>
+      <p class="chapter-intro" style="color:#555">War is the most visible method. But it is rarely the first. Most territories are opened before a single bomb falls. Here is the complete toolkit, organized by type.</p>
+    </div>
+
+    <div class="reveal" style="margin-bottom:32px">
+      <div class="eyebrow" style="color:#c0392b">Military Methods</div>
+      <div class="pill-grid">
+        <div class="pill military">Direct Invasion</div>
+        <div class="pill military">Regime Change</div>
+        <div class="pill military">Civil War Instigation</div>
+        <div class="pill military">Proxy Warfare</div>
+        <div class="pill military">Targeted Assassination</div>
+        <div class="pill military">False Flag Operations</div>
+        <div class="pill military">Gunboat Diplomacy</div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-bottom:32px">
+      <div class="eyebrow" style="color:var(--gold)">Economic Methods</div>
+      <div class="pill-grid">
+        <div class="pill economic">Sanctions</div>
+        <div class="pill economic">Debt Traps</div>
+        <div class="pill economic">Currency Attacks</div>
+        <div class="pill economic">One-sided Trade Agreements</div>
+        <div class="pill economic">Technology Dependency</div>
+        <div class="pill economic">SWIFT Exclusion</div>
+        <div class="pill economic">IMF Conditionality</div>
+        <div class="pill economic">Private Equity Extraction</div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-bottom:32px">
+      <div class="eyebrow" style="color:#1a4a7a">Political Methods</div>
+      <div class="pill-grid">
+        <div class="pill political">Electoral Interference</div>
+        <div class="pill political">Color Revolutions</div>
+        <div class="pill political">Lawfare</div>
+        <div class="pill political">Corruption and Blackmail</div>
+        <div class="pill political">NGO Networks</div>
+        <div class="pill political">Think Tank Capture</div>
+        <div class="pill political">Diplomatic Isolation</div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-bottom:32px">
+      <div class="eyebrow" style="color:#3a8a3a">Cultural Methods</div>
+      <div class="pill-grid">
+        <div class="pill cultural">Soft Power</div>
+        <div class="pill cultural">Consumer Culture Export</div>
+        <div class="pill cultural">Development Ideology</div>
+        <div class="pill cultural">University Elite Formation</div>
+        <div class="pill cultural">Religious Manipulation</div>
+        <div class="pill cultural">Media Narrative Control</div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-bottom:40px">
+      <div class="eyebrow" style="color:#8a4ab8">Technology Methods</div>
+      <div class="pill-grid">
+        <div class="pill tech">Platform Dominance</div>
+        <div class="pill tech">AI Dominance</div>
+        <div class="pill tech">Surveillance Technology</div>
+        <div class="pill tech">Cyber Operations</div>
+        <div class="pill tech">Data Extraction</div>
+        <div class="pill tech">Financialization</div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="eyebrow ink">Three Case Studies</div>
+      <div class="card-grid-light">
+        <div class="card-light">
+          <div class="card-tag">Iraq 2003</div>
+          <div class="card-title">The Full Sequence</div>
+          <div class="card-text">False intelligence manufactured (WMD). Downing Street Memo: "intelligence fixed around the policy." Media manufactured consent. Military invasion. State oil company dismantled. Oil fields opened to foreign companies. Halliburton: $39.5 billion in contracts. Dick Cheney's former company.</div>
+        </div>
+        <div class="card-light">
+          <div class="card-tag">Libya 2011</div>
+          <div class="card-title">Soft Then Hard</div>
+          <div class="card-text">Gaddafi planned gold-backed African currency. Africa's largest oil reserves, state-controlled. Sanctions and isolation. Then NATO intervention. Gaddafi killed. Oil sector fragmented. Foreign companies entered. $67 billion sovereign wealth fund frozen and partially accessed by Western institutions. Currency plan died.</div>
+        </div>
+        <div class="card-light">
+          <div class="card-tag">Iran 1953–2026</div>
+          <div class="card-title">73 Years in the Making</div>
+          <div class="card-text">1953: CIA/MI6 coup overthrows Mosaddegh after oil nationalization. 1979: Revolution. 45 years of sanctions. Nuclear program used as justification. Israeli proxy degradation of resistance axis. October 7 intelligence questions. February 28, 2026: Operation Roaring Lion. Khamenei assassinated. Tehran struck.</div>
+        </div>
+      </div>
+    </div>
+
+    <blockquote class="reveal" style="margin-top:36px; border-left-color:var(--ink); color:var(--ink)">
+      "War is a racket. It always has been. It is possibly the oldest, easily the most profitable, surely the most vicious."
+      <cite style="color:#888">Major General Smedley Butler, US Marine Corps, War is a Racket, 1935</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ============================================================
+  04: THE CHESSBOARD
+============================================================ -->
+<section id="s4">
+  <div class="chapter-num" style="color:rgba(255,255,255,0.04)">04</div>
+  <div class="container">
+    <div class="chapter-header reveal">
+      <div class="eyebrow">Chapter 04</div>
+      <h2 class="headline">The Chessboard:<br>Every Square Has a Role</h2>
+      <div class="divider"></div>
+      <p class="chapter-intro">The world is not a collection of equal nations pursuing their interests. It is a structured system where each territory plays a defined role. To understand any conflict, you first need to know which square it is on.</p>
+    </div>
+
+    <div class="reveal" style="margin-bottom:40px">
+      <div class="eyebrow gold">The Four Types of Square</div>
+      <div class="card-grid">
+        <div class="card" style="border-top:2px solid var(--gold)">
+          <div class="card-tag">Type 1</div>
+          <div class="card-title">Integrated Squares</div>
+          <div class="card-text">Already inside the system. Generating returns but saturated. US, Europe, Japan, South Korea, Gulf states. Capital flows freely. Dollar system is stable here. Policy follows financial system interest automatically.</div>
+        </div>
+        <div class="card" style="border-top:2px solid #5a8fd4">
+          <div class="card-tag">Type 2</div>
+          <div class="card-title">Semi-Periphery</div>
+          <div class="card-text">Being absorbed. Still generating returns. Contested between competing capital blocs. India, China, Brazil, Southeast Asia. Both a target for integration and increasingly a replicator of the same extraction logic domestically.</div>
+        </div>
+        <div class="card" style="border-top:2px solid var(--red)">
+          <div class="card-tag">Type 3</div>
+          <div class="card-title">Disconnected Squares</div>
+          <div class="card-text">Not yet generating returns for the dominant capital system. Primary targets. Afghanistan, Central Asia, Iran, Cuba, North Korea. Hold untapped resources, unexploited labor, undeveloped corridors. The prize the wars are fought for.</div>
+        </div>
+        <div class="card" style="border-top:2px solid #7ab87a">
+          <div class="card-tag">Type 4</div>
+          <div class="card-title">Corridor Squares</div>
+          <div class="card-text">Not valuable for resources alone but essential for connecting other squares. Gaza, Suez Canal, Strait of Hormuz, Pakistan's Gwadar, Ethiopia's Red Sea access. Control these and you control the flows between all squares.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="eyebrow">The Pieces on the Board</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--dark-line);margin:20px 0">
+        <div style="background:var(--dark-2);padding:20px">
+          <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:8px">The Queens</div>
+          <div style="font-family:'Fraunces',serif;font-size:16px;font-weight:600;margin-bottom:6px">Financial Institutions</div>
+          <div style="font-size:13px;color:var(--dark-muted);line-height:1.6">Most powerful. Move everywhere. BlackRock, JPMorgan, Goldman Sachs. Control capital flows.</div>
+        </div>
+        <div style="background:var(--dark-2);padding:20px">
+          <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:8px">The Rooks</div>
+          <div style="font-family:'Fraunces',serif;font-size:16px;font-weight:600;margin-bottom:6px">Military</div>
+          <div style="font-size:13px;color:var(--dark-muted);line-height:1.6">Enforce control. Open closed squares by force. 11 US carrier strike groups vs China's 3.</div>
+        </div>
+        <div style="background:var(--dark-2);padding:20px">
+          <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#5a8fd4;margin-bottom:8px">The Bishops</div>
+          <div style="font-family:'Fraunces',serif;font-size:16px;font-weight:600;margin-bottom:6px">Political Operatives</div>
+          <div style="font-size:13px;color:var(--dark-muted);line-height:1.6">Move indirectly. Connect financial power to military action through policy. Revolving door.</div>
+        </div>
+        <div style="background:var(--dark-2);padding:20px">
+          <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9a6ad4;margin-bottom:8px">The Knights</div>
+          <div style="font-family:'Fraunces',serif;font-size:16px;font-weight:600;margin-bottom:6px">Intelligence Agencies</div>
+          <div style="font-size:13px;color:var(--dark-muted);line-height:1.6">Unpredictable movement. Operate in shadows. CIA, Mossad, Five Eyes. Coups, assassinations, cyber.</div>
+        </div>
+        <div style="background:var(--dark-2);padding:20px">
+          <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dark-muted);margin-bottom:8px">The Pawns</div>
+          <div style="font-family:'Fraunces',serif;font-size:16px;font-weight:600;margin-bottom:6px">Media</div>
+          <div style="font-size:13px;color:var(--dark-muted);line-height:1.6">Most numerous. First line of narrative control. 6 corporations control 90% of American media.</div>
+        </div>
+        <div style="background:var(--dark-2);padding:20px;border:1px solid rgba(184,48,37,0.3)">
+          <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:8px">The King</div>
+          <div style="font-family:'Fraunces',serif;font-size:16px;font-weight:600;margin-bottom:6px">Dollar Dominance</div>
+          <div style="font-size:13px;color:var(--dark-muted);line-height:1.6">The system itself. The king being protected. Every move on the board serves this one objective.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout reveal" style="margin-top:36px">
+      <strong>Brzezinski wrote this in 1997.</strong> In The Grand Chessboard, America's most influential post-Cold War strategist argued that Central Asia is the key to global dominance and that America's primary strategic goal must be preventing any single power from controlling Eurasia. That book became American foreign policy doctrine. Everything you are watching now was described there, 28 years ago.
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+  05: THE WARS
+============================================================ -->
+<section id="s5" class="light">
+  <div class="chapter-num" style="color:rgba(0,0,0,0.04)">05</div>
+  <div class="container">
+    <div class="chapter-header reveal">
+      <div class="eyebrow ink">Chapter 05</div>
+      <h2 class="headline" style="color:var(--ink)">The Wars:<br>The Pattern Never Changes</h2>
+      <div class="divider"></div>
+      <p class="chapter-intro" style="color:#555">Once you see the mechanism and the toolkit, every major conflict since 1945 becomes readable. Not as random chaos but as a repeating pattern. Genuine conflict exploited by financial and military interests. Always the same sequence.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="eyebrow">The Sequence</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1px;background:var(--border);margin-bottom:36px">
+        <div style="background:var(--paper);padding:18px;text-align:center">
+          <div style="font-family:'Fraunces',serif;font-size:32px;font-weight:800;color:var(--red);line-height:1">1</div>
+          <div style="font-size:13px;margin-top:8px;color:#444">Identify a territory with untapped resources or strategic position</div>
+        </div>
+        <div style="background:var(--paper);padding:18px;text-align:center">
+          <div style="font-family:'Fraunces',serif;font-size:32px;font-weight:800;color:var(--red);line-height:1">2</div>
+          <div style="font-size:13px;margin-top:8px;color:#444">Apply economic pressure, sanctions, or covert destabilization</div>
+        </div>
+        <div style="background:var(--paper);padding:18px;text-align:center">
+          <div style="font-family:'Fraunces',serif;font-size:32px;font-weight:800;color:var(--red);line-height:1">3</div>
+          <div style="font-size:13px;margin-top:8px;color:#444">Manufacture or amplify a crisis as justification</div>
+        </div>
+        <div style="background:var(--paper);padding:18px;text-align:center">
+          <div style="font-family:'Fraunces',serif;font-size:32px;font-weight:800;color:var(--red);line-height:1">4</div>
+          <div style="font-size:13px;margin-top:8px;color:#444">Media manufactured consent. Official narrative established</div>
+        </div>
+        <div style="background:var(--paper);padding:18px;text-align:center">
+          <div style="font-family:'Fraunces',serif;font-size:32px;font-weight:800;color:var(--red);line-height:1">5</div>
+          <div style="font-size:13px;margin-top:8px;color:#444">Military action opens the territory</div>
+        </div>
+        <div style="background:var(--paper);padding:18px;text-align:center">
+          <div style="font-family:'Fraunces',serif;font-size:32px;font-weight:800;color:var(--gold);line-height:1">6</div>
+          <div style="font-size:13px;margin-top:8px;color:#444">Financial institutions manage the capital flows into newly opened territory</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="eyebrow">Documented Cases</div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-year" style="color:#c0392b">1953</div>
+          <div class="timeline-content">
+            <div class="timeline-title" style="color:var(--ink)">Iran — Operation Ajax</div>
+            <div class="timeline-text">Mosaddegh nationalizes Iranian oil. CIA and MI6 spend $1 million bribing military officers and street gangs to overthrow him. Officially confirmed 2013. Within weeks, American oil companies receive 40% of Iranian oil concessions they had previously been excluded from. The coup that explains everything that followed — including right now.</div>
+            <div style="margin-top:8px"><span class="evidence documented" style="background:rgba(122,184,122,0.08);color:rgba(80,160,80,0.9)">Documented: CIA confirmed 2013</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">1964</div>
+          <div class="timeline-content">
+            <div class="timeline-title" style="color:var(--ink)">Vietnam — Gulf of Tonkin</div>
+            <div class="timeline-text">North Vietnamese forces allegedly attack US ships. Congress authorizes massive escalation. Robert McNamara, the Defense Secretary who prosecuted the war, admitted before he died that the incident was fabricated. 58,000 Americans died. Millions of Vietnamese. Based on a false flag. Defense contractors and the permanent war economy benefited enormously.</div>
+            <div style="margin-top:8px"><span class="evidence documented" style="background:rgba(122,184,122,0.08);color:rgba(80,160,80,0.9)">Documented: McNamara admission</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">1980s</div>
+          <div class="timeline-content">
+            <div class="timeline-title" style="color:var(--ink)">Iran-Iraq War — Both Sides Funded</div>
+            <div class="timeline-text">US supplied intelligence and weapons to Iraq under Saddam Hussein, including components for chemical weapons used on Kurds. Simultaneously, in the Iran-Contra affair, the US was secretly selling weapons to Iran. Both sides. Same conflict. American weapons dealers playing both ends. This is the documented record, not speculation.</div>
+            <div style="margin-top:8px"><span class="evidence documented" style="background:rgba(122,184,122,0.08);color:rgba(80,160,80,0.9)">Documented: Iran-Contra hearings 1987</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2003</div>
+          <div class="timeline-content">
+            <div class="timeline-title" style="color:var(--ink)">Iraq — Manufactured War</div>
+            <div class="timeline-text">WMD intelligence fabricated or massively distorted. Downing Street Memo: intelligence "fixed around the policy." Iraq had the world's fifth largest proven oil reserves. After invasion: state oil company dismantled, oil fields opened to foreign companies. Halliburton received $39.5 billion in contracts. Dick Cheney's former company. Cheney was Vice President who pushed hardest for invasion.</div>
+            <div style="margin-top:8px"><span class="evidence documented" style="background:rgba(122,184,122,0.08);color:rgba(80,160,80,0.9)">Documented: Downing Street Memo, 2005 leak</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2011</div>
+          <div class="timeline-content">
+            <div class="timeline-title" style="color:var(--ink)">Libya — Africa's Largest Oil Reserves</div>
+            <div class="timeline-text">Gaddafi was planning a gold-backed African currency that would allow African nations to trade oil without dollars. Libya had Africa's largest proven oil reserves, state-controlled. NATO intervention. Gaddafi killed. Hillary Clinton on video: "We came, we saw, he died." Oil sector fragmented. $67 billion sovereign wealth fund frozen. The gold currency plan died.</div>
+            <div style="margin-top:8px"><span class="evidence documented" style="background:rgba(122,184,122,0.08);color:rgba(80,160,80,0.9)">Documented: Clinton CBS interview 2011</span></div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year" style="color:var(--red)">2026</div>
+          <div class="timeline-content">
+            <div class="timeline-title" style="color:var(--ink)">Iran — The Current War</div>
+            <div class="timeline-text">Operation Roaring Lion (Israel) / Operation Epic Fury (US). Began February 28, 2026. Khamenei assassinated in opening strikes on Tehran. 1,230+ dead in Iran. Iran has launched 500+ ballistic missiles and 2,000+ drones across 9 countries. Natanz nuclear facility struck. US submarine sank Iranian warship near Sri Lanka. India silent. Only 25% American public support.</div>
+            <div style="margin-top:8px"><span class="evidence documented" style="background:rgba(122,184,122,0.08);color:rgba(80,160,80,0.9)">Live — Day 8</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <blockquote class="reveal" style="border-left-color:var(--ink);color:var(--ink)">
+      "The intelligence and facts were being fixed around the policy."
+      <cite style="color:#888">The Downing Street Memo, British Cabinet minutes, July 2002 — on Iraq WMD intelligence</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ============================================================
+  06: INDIA
+============================================================ -->
+<section id="s6" class="dark-3">
+  <div class="chapter-num" style="color:rgba(255,255,255,0.04)">06</div>
+  <div class="container">
+    <div class="chapter-header reveal">
+      <div class="eyebrow">Chapter 06</div>
+      <h2 class="headline">India's Position:<br>Target, Partner, and Replicator</h2>
+      <div class="divider"></div>
+      <p class="chapter-intro">India is not simply a victim of the global system. Its elites have made a sophisticated calculation: align with the system, extract personal benefit, use nationalist rhetoric to maintain domestic legitimacy. India is simultaneously all three things at once.</p>
+    </div>
+
+    <div class="position-grid reveal">
+      <div class="position-cell">
+        <div class="position-role">Role 1</div>
+        <div class="position-title">Target</div>
+        <div class="position-desc">BlackRock-Jio financializing $3-4 trillion in Indian household savings. 800 million internet users as data extraction territory. Dollar system dependency limiting Iran and Russia policy. Chabahar blocked. IMF structural adjustment legacy since 1991.</div>
+      </div>
+      <div class="position-cell">
+        <div class="position-role">Role 2</div>
+        <div class="position-title">Partner</div>
+        <div class="position-desc">India-Israel defense relationship: $1 billion+ annually in weapons. Modi first Indian PM to visit Israel, 2017. Silence on Iranian warship sunk in Indian Ocean. Defense manufacturing partnership with Israeli military industry. Silence on Gaza that cost Modi relationships across the Muslim world.</div>
+      </div>
+      <div class="position-cell">
+        <div class="position-role">Role 3</div>
+        <div class="position-title">Replicator</div>
+        <div class="position-desc">Adani doing domestically what global capital does internationally. Hasdeo Arand forest tribal displacement: the enclosure of commons. Aravalli hills: regulatory capture for real estate. Andaman: development threatening tribal populations. NDTV acquisition: media capture. Hindenburg revelations. SEBI conflict of interest.</div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:40px">
+      <div class="eyebrow gold">The Dollar Trap</div>
+      <p style="color:var(--dark-muted);font-size:16px;line-height:1.75">India's strategic autonomy aspirations constantly collide with a simple fact: Indian banks, Indian companies, and Indian exporters all need access to the dollar system. The threat of being cut off from SWIFT is existential for any modern economy. This is the real leverage.</p>
+      <div class="two-col" style="margin-top:24px">
+        <div>
+          <div style="font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--dark-faint);margin-bottom:12px">Signs of Absorption</div>
+          <div class="numbered-list">
+            <div class="numbered-item"><div class="numbered-text" style="color:var(--dark-muted)">BlackRock-Jio financialization entering Indian savings</div></div>
+            <div class="numbered-item"><div class="numbered-text" style="color:var(--dark-muted)">Israel defense dependency deepening</div></div>
+            <div class="numbered-item"><div class="numbered-text" style="color:var(--dark-muted)">Dollar system constraining Iran and Russia policy</div></div>
+            <div class="numbered-item"><div class="numbered-text" style="color:var(--dark-muted)">Adani model replicating extraction logic domestically</div></div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--dark-faint);margin-bottom:12px">Signs of Resistance</div>
+          <div class="numbered-list">
+            <div class="numbered-item"><div class="numbered-text" style="color:var(--dark-muted)">UPI as dollar-alternative payment infrastructure</div></div>
+            <div class="numbered-item"><div class="numbered-text" style="color:var(--dark-muted)">Rupee trade agreements with Russia</div></div>
+            <div class="numbered-item"><div class="numbered-text" style="color:var(--dark-muted)">BRICS participation and expansion support</div></div>
+            <div class="numbered-item"><div class="numbered-text" style="color:var(--dark-muted)">Non-alignment tradition surviving in foreign policy</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout gold reveal" style="margin-top:36px">
+      <strong>The Chabahar Test.</strong> India's Chabahar port investment in Iran was its gateway to Afghanistan and Central Asia. American sanctions on Iran blocked this route entirely. India's most important strategic infrastructure project, years in the making, rendered irrelevant because India could not afford to anger the dollar system. This is not abstract. This is the concrete cost of dependency.
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+  07: WHO RUNS IT
+============================================================ -->
+<section id="s7" class="dark-2">
+  <div class="chapter-num" style="color:rgba(255,255,255,0.04)">07</div>
+  <div class="container">
+    <div class="chapter-header reveal">
+      <div class="eyebrow">Chapter 07</div>
+      <h2 class="headline">Who Runs It:<br>Six Tiers of the System</h2>
+      <div class="divider"></div>
+      <p class="chapter-intro">The system is not run by a single person in a room. It is run by a structural architecture of aligned incentives operating through six interlocking tiers. No conspiracy required. Just institutions rewarding certain behaviors and punishing others.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="tier">
+        <div class="tier-header">
+          <div class="tier-num">01</div>
+          <div class="tier-name">The Financial Complex</div>
+        </div>
+        <div class="tier-examples">BlackRock ($10 trillion AUM, Aladdin system manages $20 trillion in risk). JPMorgan Chase ($3.7 trillion in assets). Goldman Sachs (the revolving door machine — Rubin, Paulson, Mnuchin all Treasury Secretaries). Vanguard, State Street. Together BlackRock, Vanguard, and State Street own ~20% of every S&P 500 company. BlackRock appointed to coordinate Ukraine reconstruction before the war ended.</div>
+      </div>
+
+      <div class="tier">
+        <div class="tier-header">
+          <div class="tier-num">02</div>
+          <div class="tier-name">The Defense Contractors</div>
+        </div>
+        <div class="tier-examples">Lockheed Martin ($67B revenue). Raytheon/RTX ($67B). Northrop Grumman ($37B). Boeing Defense. General Dynamics. These companies spend hundreds of millions on lobbying. Employ retired generals and admirals. Have shareholders who are primarily BlackRock, Vanguard, and State Street. The circularity is complete: the same institutions that profit from wars own the companies that conduct them.</div>
+      </div>
+
+      <div class="tier">
+        <div class="tier-header">
+          <div class="tier-num">03</div>
+          <div class="tier-name">The Neoconservative Network</div>
+        </div>
+        <div class="tier-examples">Richard Perle: co-authored "A Clean Break" for Netanyahu in 1996 recommending removing Saddam and containing Syria and Iran. This became US policy after 2001. Paul Wolfowitz: primary architect of Iraq War, later World Bank president. Victoria Nuland: central to 2014 Ukraine events, "F*** the EU" leaked call. Married to Robert Kagan, PNAC co-founder. Current: Rubio, Hegseth, Waltz. The network that has been pushing Iran war for 30 years.</div>
+      </div>
+
+      <div class="tier">
+        <div class="tier-header">
+          <div class="tier-num">04</div>
+          <div class="tier-name">The Think Tank Complex</div>
+        </div>
+        <div class="tier-examples">Foundation for Defense of Democracies (FDD): almost entirely focused on Iran regime change. Funded substantially by pro-Israel donors. Mark Dubowitz most influential voice for Iran military action for 20 years. AEI: consistent advocate for military intervention. Brookings: funded by defense contractors and Gulf states. Hudson Institute. RAND. The mechanism: publish paper — cited in congressional testimony — analyst joins administration — policy implemented — analyst returns to think tank. Entirely legal. Entirely visible. Extraordinarily effective.</div>
+      </div>
+
+      <div class="tier">
+        <div class="tier-header">
+          <div class="tier-num">05</div>
+          <div class="tier-name">The Intelligence Complex</div>
+        </div>
+        <div class="tier-examples">CIA: budget ~$15 billion. History of regime change operations. Iran 1953, Guatemala 1954, Chile 1973. Mossad: arguably most effective intelligence agency relative to country size. Assassinated at least 5 Iranian nuclear scientists. Stole Iran's entire nuclear archive (100,000 documents) from a Tehran warehouse. Stuxnet cyberattack on Natanz with Unit 8200. Five Eyes: America, Britain, Canada, Australia, New Zealand operating as single intelligence entity. British bases used in Iran operation.</div>
+      </div>
+
+      <div class="tier">
+        <div class="tier-header">
+          <div class="tier-num">06</div>
+          <div class="tier-name">The Media Complex</div>
+        </div>
+        <div class="tier-examples">Six corporations control ~90% of American media: Comcast (NBC, MSNBC), Disney (ABC, ESPN), News Corp (Fox, WSJ), Warner Bros Discovery (CNN, HBO), Paramount (CBS), Sony. These corporations have defense contractor shareholders, are owned substantially by BlackRock and Vanguard, depend on government for regulatory approvals, and have boards interlocked with finance and defense. Before Iraq War every major American media outlet supported invasion. Same institutions, same journalists, no accountability after the lies were exposed.</div>
+      </div>
+    </div>
+
+    <blockquote class="reveal" style="margin-top:36px">
+      "In the councils of government, we must guard against the acquisition of unwarranted influence, whether sought or unsought, by the military-industrial complex."
+      <cite>President Dwight D. Eisenhower, farewell address, 1961 — the outgoing US President warning his own nation</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ============================================================
+  08: THE ENCLOSURE
+============================================================ -->
+<section id="s8" class="light">
+  <div class="chapter-num" style="color:rgba(0,0,0,0.04)">08</div>
+  <div class="container">
+    <div class="chapter-header reveal">
+      <div class="eyebrow ink">Chapter 08</div>
+      <h2 class="headline" style="color:var(--ink)">The Enclosure:<br>Converting Commons to Commodities</h2>
+      <div class="divider"></div>
+      <p class="chapter-intro" style="color:#555">The deepest pattern across every market opener is a single logic: taking what was previously shared, free, or belonging to communities and converting it into private property. This process has a name: the Enclosure of the Commons. It started in 17th century England and has never stopped.</p>
+    </div>
+
+    <div class="reveal">
+      <p class="body-lg" style="color:#444">David Harvey calls this <em>accumulation by dispossession</em>: capitalism's ongoing need to enclose new commons to sustain accumulation. The same process that drove peasants off common land into industrial labor in 1700 is now enclosing attention, data, genes, and space.</p>
+    </div>
+
+    <div class="reveal" style="margin-top:36px">
+      <div class="card-grid-light">
+        <div class="card-light"><div class="card-tag">1700s</div><div class="card-title">Agricultural Commons</div><div class="card-text">Common land enclosed. Peasants driven into industrial labor. The original dispossession that capitalism required to create a workforce.</div></div>
+        <div class="card-light"><div class="card-tag">Colonial Era</div><div class="card-title">Territories</div><div class="card-text">Previously sovereign territories converted to extractive colonies. Peoples converted to labor inputs. Natural resources converted to export commodities.</div></div>
+        <div class="card-light"><div class="card-tag">1990s-Now</div><div class="card-title">Water</div><div class="card-text">Previously a commons. Now bottled water is a $300 billion industry. Water rights being privatized globally. Nestle: "water is not a public right."</div></div>
+        <div class="card-light"><div class="card-tag">1990s-Now</div><div class="card-title">Seeds</div><div class="card-text">Previously saved and shared by farmers for millennia. Now patented by Monsanto/Bayer. Farmers must buy seeds annually. Suicide rates among Indian farmers with Bt cotton debts.</div></div>
+        <div class="card-light"><div class="card-tag">2000s-Now</div><div class="card-title">Attention</div><div class="card-text">Previously your own. Now extracted by social media platforms. Facebook, Instagram, TikTok are attention extraction machines. Each hour captured equals advertising revenue.</div></div>
+        <div class="card-light"><div class="card-tag">2010s-Now</div><div class="card-title">Data</div><div class="card-text">Previously private. Now extracted and sold. You are not the customer. You are the product. Every click, purchase, location, relationship — commodified.</div></div>
+        <div class="card-light"><div class="card-tag">2020s-Now</div><div class="card-title">Nature</div><div class="card-text">Forests, rivers, biodiversity being converted into carbon credits and ecosystem services. Nature becomes a financial instrument controlled by financial institutions.</div></div>
+        <div class="card-light" style="border-top:2px solid var(--red)"><div class="card-tag" style="color:var(--red)">Next Frontier</div><div class="card-title">Space</div><div class="card-text">The ultimate disconnected territory. No existing sovereign owners. First to establish presence establishes claim. A single asteroid can contain more platinum than mined in all human history.</div></div>
+      </div>
+    </div>
+
+    <div class="callout reveal" style="margin-top:36px">
+      <strong>The Adani Domestic Enclosure.</strong> Adani doing to Hasdeo Arand forest in Chattisgarh what global capital does to Central Asia. Tribal communities on coal-bearing land. Regulatory capture through government relationship. NDTV acquisition to manage narrative. Hindenburg revelations. SEBI chairperson with financial connections to Adani-linked offshore funds continuing to oversee the investigation. The system is not different domestically. Only the scale changes.
+    </div>
+
+    <blockquote class="reveal" style="border-left-color:var(--ink); color:var(--ink)">
+      "The frontier keeps moving because the commons keeps shrinking. When there is nothing left to enclose, the system faces its final crisis."
+      <cite style="color:#888">The terminal logic of accumulation by dispossession</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ============================================================
+  09: FISH IN WATER
+============================================================ -->
+<section id="s9">
+  <div class="chapter-num" style="color:rgba(255,255,255,0.04)">09</div>
+  <div class="container">
+    <div class="chapter-header reveal">
+      <div class="eyebrow">Chapter 09</div>
+      <h2 class="headline">The Fish in Water:<br>How Do You See the System You Live Inside?</h2>
+      <div class="divider"></div>
+      <p class="chapter-intro">This is the deepest question. You now understand the mechanism, the toolkit, the chessboard. But there is a problem no analysis can escape: the mind that has been conditioned by the system may be unable to see it clearly from inside.</p>
+    </div>
+
+    <div class="reveal">
+      <p class="body-lg">Indian philosopher Jiddu Krishnamurti spent his life asking this question. His central inquiry: can the mind shaped by society, religion, ideology, and the very language of its culture accurately perceive the system that shaped it? Or is the thinking we use to analyze the system itself a product of what we are trying to see?</p>
+      <p class="body-lg">This is not defeatism. It is the most honest level of the question.</p>
+    </div>
+
+    <div class="thinker-grid reveal" style="margin-top:40px;grid-template-columns:1fr">
+
+      <div class="thinker" style="max-width:640px">
+        <div class="thinker-name">Antonio Gramsci</div>
+        <div class="thinker-dates">1891–1937 — Writing from Mussolini's Prison</div>
+        <div class="thinker-concept">Cultural Hegemony</div>
+        <div class="thinker-text">The ruling class maintains power not primarily through force but through cultural hegemony: making their worldview the common sense worldview of everyone. When working class people vote against their economic interests — cultural hegemony. When Indians celebrate Adani as national success story without questioning his practices — cultural hegemony. When people accept that billionaires deserve wealth because they "worked hard" — cultural hegemony. The antidote Gramsci proposed: organic intellectuals — people from within communities who develop alternative frameworks.</div>
+      </div>
+
+      <div class="thinker" style="max-width:640px">
+        <div class="thinker-name">Michel Foucault</div>
+        <div class="thinker-dates">1926–1984</div>
+        <div class="thinker-concept">Power-Knowledge and the Panopticon</div>
+        <div class="thinker-text">Power operates not just through force but through controlling what counts as knowledge, what questions can be asked, what is considered rational or sane. The person who questions the official narrative of October 7 is called a conspiracy theorist. The person who questions Western narrative on Iran is called an apologist for theocracy. These labels are power operating through knowledge — determining what can be thought. The Panopticon: when people believe they might always be watched, they discipline themselves. Digital surveillance capitalism is the Panopticon at civilizational scale.</div>
+      </div>
+
+      <div class="thinker" style="max-width:640px">
+        <div class="thinker-name">Noam Chomsky and Edward Herman</div>
+        <div class="thinker-dates">Manufacturing Consent, 1988</div>
+        <div class="thinker-concept">Manufactured Consent</div>
+        <div class="thinker-text">Populations do not need to be forced to support systems that harm them. They can be manufactured into consenting through: media framing, the educational system, entertainment, religious institutions, consumer culture. The person worried about Pakistan, angry about reservations, excited about cricket, distracted by Netflix — is not thinking about BlackRock absorbing their savings. Distraction is control. The media does not take instructions from government. It does not need to. Shared structural incentives produce the same result.</div>
+      </div>
+
+      <div class="thinker" style="max-width:640px">
+        <div class="thinker-name">Jiddu Krishnamurti</div>
+        <div class="thinker-dates">1895–1986 — Bellary, Andhra Pradesh</div>
+        <div class="thinker-concept">The Observer and the Observed</div>
+        <div class="thinker-text">The frameworks we use — nation, interest, development, progress — are themselves products of the system. To truly see the system requires stepping outside the frameworks it gave us. This is why physical and mental distance from the system creates the perspective to see it. Krishnamurti's question was not about politics but about the mind itself: can you observe your own conditioning while you are conditioned? The answer is partially yes — and that partial yes is the beginning of freedom.</div>
+        <blockquote style="margin-top:16px">
+          "It is no measure of health to be well adjusted to a profoundly sick society."
+          <cite>Jiddu Krishnamurti</cite>
+        </blockquote>
+      </div>
+    </div>
+
+    <div class="callout reveal" style="margin-top:36px">
+      <strong>What this means practically.</strong> The conversation you had with your friend at 2am — two conditioned minds trying to think past their conditioning — that is what seeing through the system looks like in practice. Not a perfect view from outside. A partial, contested, honestly uncertain view from inside. The friction of genuine disagreement between two people who trust each other is more clarifying than any amount of solo analysis. That conversation was the methodology.
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+  10: THE THINKERS
+============================================================ -->
+<section id="s10" class="light-warm">
+  <div class="chapter-num" style="color:rgba(0,0,0,0.04)">10</div>
+  <div class="container-wide">
+    <div class="chapter-header reveal">
+      <div class="eyebrow ink">Chapter 10</div>
+      <h2 class="headline" style="color:var(--ink)">The Thinkers:<br>Who Saw This Coming</h2>
+      <div class="divider"></div>
+      <p class="chapter-intro" style="color:#555">They wrote about this from different angles, different eras, different continents. None of them knew each other. All of them were describing the same pattern. Here are the eight you most need to understand.</p>
+    </div>
+
+    <div class="thinker-grid reveal">
+      <div class="thinker" style="background:var(--paper);border-color:var(--border)">
+        <div class="thinker-name" style="color:var(--ink)">Vladimir Lenin</div>
+        <div class="thinker-dates" style="color:#888">1870–1924 — Written During WWI, 1916</div>
+        <div class="thinker-concept">Imperialism as Highest Stage</div>
+        <div class="thinker-text" style="color:#555">Capitalism inevitably produces imperialism — the export of capital to new territories when domestic markets saturate. Written 109 years ago as explanation of why WWI was happening. It describes 2026 with remarkable precision. Capitalism does not just need new markets. It needs to export capital itself. The spatial fix is built into the system's DNA.</div>
+        <blockquote style="color:var(--ink);border-left-color:var(--red)">
+          "The war was an annexationist, predatory, plunderous war. Its historical and economic background must be studied to understand modern politics."
+          <cite style="color:#888">Lenin, Imperialism: The Highest Stage of Capitalism, 1916</cite>
+        </blockquote>
+      </div>
+
+      <div class="thinker" style="background:var(--paper);border-color:var(--border)">
+        <div class="thinker-name" style="color:var(--ink)">David Harvey</div>
+        <div class="thinker-dates" style="color:#888">Born 1935 — The New Imperialism, 2003</div>
+        <div class="thinker-concept">Spatial Fix and Accumulation by Dispossession</div>
+        <div class="thinker-text" style="color:#555">Overaccumulation crisis drives capital to seek new territories. Accumulation by dispossession: capitalism's ongoing requirement to enclose new commons — privatizing water, patenting seeds, financializing savings, securitizing nature. The Adani pattern. The BlackRock pattern. The wars for resources pattern. All the same mechanism.</div>
+        <blockquote style="color:var(--ink);border-left-color:var(--red)">
+          "Finance capital backed by state power amounts to accumulation by other means."
+          <cite style="color:#888">Harvey, The New Imperialism, 2003</cite>
+        </blockquote>
+      </div>
+
+      <div class="thinker" style="background:var(--paper);border-color:var(--border)">
+        <div class="thinker-name" style="color:var(--ink)">Shashi Tharoor</div>
+        <div class="thinker-dates" style="color:#888">Born 1956 — An Era of Darkness, 2016</div>
+        <div class="thinker-concept">The Economic Cost of Colonialism</div>
+        <div class="thinker-text" style="color:#555">India held 23% of world GDP when Britain arrived. 4% when it left. The East India Company was the original IMF — bringing "development" with strings attached. Tharoor's Oxford Union speech made the case so precisely that the video went globally viral. The argument: colonialism was not just political oppression. It was deliberate economic destruction. Understanding this is prerequisite to understanding India's current position.</div>
+        <blockquote style="color:var(--ink);border-left-color:var(--red)">
+          "It's a bit rich to oppress, enslave, kill and torture people for 200 years and then celebrate the fact that they are democratic at the end of it."
+          <cite style="color:#888">Tharoor, Oxford Union, 2015</cite>
+        </blockquote>
+      </div>
+
+      <div class="thinker" style="background:var(--paper);border-color:var(--border)">
+        <div class="thinker-name" style="color:var(--ink)">David Graeber</div>
+        <div class="thinker-dates" style="color:#888">1961–2020 — Debt: The First 5,000 Years, 2011</div>
+        <div class="thinker-concept">Debt as the Primary Tool of Control</div>
+        <div class="thinker-text" style="color:#555">Money did not emerge from barter. It emerged from debt relationships and power. This single insight reframes everything: why nations are in permanent debt, why the IMF model works the way it does, why debt is the primary tool of control, why the story told in economics textbooks is backwards. The debt trap is not a modern invention. It is the oldest instrument of subjugation in human civilization.</div>
+      </div>
+
+      <div class="thinker" style="background:var(--paper);border-color:var(--border)">
+        <div class="thinker-name" style="color:var(--ink)">Naomi Klein</div>
+        <div class="thinker-dates" style="color:#888">Born 1970 — The Shock Doctrine, 2007</div>
+        <div class="thinker-concept">Disaster Capitalism</div>
+        <div class="thinker-text" style="color:#555">Crisis — sometimes manufactured — is used to implement radical policies that transfer wealth upward. Chile 1973. Argentina. Russia 1990s. Iraq 2003. New Orleans after Katrina. Ukraine reconstruction with BlackRock appointed before the war ended. The pattern: shock creates opportunity for those with capital to buy assets cheaply, enter markets previously closed, restructure economies in their favor. You said it yourself: capitalism finds opportunity in chaos.</div>
+      </div>
+
+      <div class="thinker" style="background:var(--paper);border-color:var(--border)">
+        <div class="thinker-name" style="color:var(--ink)">Frantz Fanon</div>
+        <div class="thinker-dates" style="color:#888">1925–1961 — Wretched of the Earth, 1961</div>
+        <div class="thinker-concept">The Psychology of Colonialism</div>
+        <div class="thinker-text" style="color:#555">How colonialism damages both colonized and colonizer. How liberation movements are co-opted. Most importantly for India: how national bourgeoisies replace colonial powers without changing the extractive structure. Did independence actually change the system — or did it just change who sits at the top? The Adani-Modi nexus as the post-colonial elite replicating colonial extraction domestically. Fanon asked this question 64 years ago.</div>
+      </div>
+
+      <div class="thinker" style="background:var(--paper);border-color:var(--border)">
+        <div class="thinker-name" style="color:var(--ink)">Ibn Khaldun</div>
+        <div class="thinker-dates" style="color:#888">1332–1406 — The Muqaddimah</div>
+        <div class="thinker-concept">The Rise and Fall of Civilizations</div>
+        <div class="thinker-text" style="color:#555">The first systematic theory of history and social change. Written by a North African Muslim scholar 650 years ago. Asabiyyah — social solidarity — is the key variable in the rise and fall of civilizations. Civilizations rise through strong social solidarity. They fall when elites become corrupt and lose connection to the people. He describes the American empire, the Indian political class, and the global financial complex today with perfect accuracy. A non-Western framework that predates Marx by five centuries.</div>
+      </div>
+
+      <div class="thinker" style="background:var(--paper);border-color:var(--border)">
+        <div class="thinker-name" style="color:var(--ink)">John Perkins</div>
+        <div class="thinker-dates" style="color:#888">Born 1945 — Confessions of an Economic Hit Man, 2004</div>
+        <div class="thinker-concept">The Debt Trap from the Inside</div>
+        <div class="thinker-text" style="color:#555">Perkins was an actual economic hit man — his own term for himself. He worked for a consulting firm making inflated economic projections for developing countries to justify enormous World Bank and IMF loans. Countries couldn't repay. Assets were seized. Policy control was established. He did this in Ecuador, Panama, Colombia, Indonesia, Iran, Saudi Arabia. He names names. He describes specific operations. This is not theory. This is a practitioner's confession.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+  11: THE ALTERNATIVES
+============================================================ -->
+<section id="s11">
+  <div class="chapter-num" style="color:rgba(255,255,255,0.04)">11</div>
+  <div class="container">
+    <div class="chapter-header reveal">
+      <div class="eyebrow">Chapter 11</div>
+      <h2 class="headline">The Alternatives:<br>Proof That Other Ways Are Possible</h2>
+      <div class="divider"></div>
+      <p class="chapter-intro">The system fights hardest against working alternatives. Not against failed ones. A working alternative is more threatening than a failed revolt, because it proves the system's claim to inevitability is false. These examples exist. They are real.</p>
+    </div>
+
+    <div class="alt-grid reveal">
+      <div class="alt-card">
+        <div class="alt-name">Kerala Model</div>
+        <div class="alt-where">India — Ongoing since 1950s</div>
+        <div class="alt-text">Land reform breaking landlord power. Universal education — 100% literacy. Universal healthcare — life expectancy matching developed countries. Women's empowerment — highest female labor participation in India. Democratic decentralization — genuine local governance. On a fraction of Gujarat's per capita income, Kerala achieved human development outcomes matching wealthy nations.</div>
+        <div class="alt-lesson">Happened through sustained political organizing by left parties over decades. Not through foreign investment or billionaire philanthropy.</div>
+      </div>
+
+      <div class="alt-card">
+        <div class="alt-name">Zapatistas</div>
+        <div class="alt-where">Chiapas, Mexico — 1994 to Present</div>
+        <div class="alt-text">Indigenous Maya community. Rose up on the day NAFTA came into effect — which they correctly predicted would destroy their agricultural communities. Not to take national power. To create autonomous zones. 30 years later: run their own schools, healthcare, justice system. Govern through consensus assemblies. Reject both capitalism and state socialism. Survived military pressure, paramilitary attacks, and economic strangulation.</div>
+        <div class="alt-lesson">They are still there. Proof that autonomous communities outside the dominant system can survive.</div>
+      </div>
+
+      <div class="alt-card">
+        <div class="alt-name">Bolivia under Morales</div>
+        <div class="alt-where">Bolivia — 2006–2019</div>
+        <div class="alt-text">First indigenous president of Bolivia. Nationalized natural gas — revenues previously going to foreign corporations redirected to poverty reduction, education, healthcare, infrastructure. Bolivia went from one of South America's poorest to sustained economic growth with decreasing inequality. Removed in a coup in 2019 — evidence suggests US involvement. Returned through elections in 2020.</div>
+        <div class="alt-lesson">The system fights back against working alternatives because they are more threatening than failed ones.</div>
+      </div>
+
+      <div class="alt-card">
+        <div class="alt-name">Rojava</div>
+        <div class="alt-where">Northern Syria — 2012 to Present</div>
+        <div class="alt-text">Kurdish autonomous region. Under constant military threat from ISIS, Turkey, and the Syrian government. Developed democratic confederalism with mandatory female co-leadership at every level, ecological sustainability built into governance, multi-ethnic inclusion. Created by people under siege, with limited resources, facing existential military threat.</div>
+        <div class="alt-lesson">If they can build this under those conditions, what is possible under better ones?</div>
+      </div>
+
+      <div class="alt-card">
+        <div class="alt-name">UPI</div>
+        <div class="alt-where">India — 2016 to Present</div>
+        <div class="alt-text">Unified Payments Interface. India's homegrown payment infrastructure. Processes billions of transactions outside the dollar-SWIFT system. Now being adopted across Southeast Asia, Middle East, and Africa. The most successful example of financial infrastructure that reduces dollar dependency while building genuine capability. A rare example of Indian state building something that challenges the system rather than integrating into it.</div>
+        <div class="alt-lesson">India's most important contribution to multipolar finance. More significant than any military posture.</div>
+      </div>
+
+      <div class="alt-card">
+        <div class="alt-name">BRICS Expansion</div>
+        <div class="alt-where">Global — Ongoing</div>
+        <div class="alt-text">Now includes Saudi Arabia, UAE, Ethiopia, Iran, Egypt. Together representing 45% of world population, 35% of global GDP. Developing alternative payment systems. Gold accumulation. Challenging dollar reserve currency dominance. Not a utopian project — contains its own imperial ambitions (China). But represents the first serious structural challenge to dollar dominance since Bretton Woods.</div>
+        <div class="alt-lesson">The unipolar moment is ending. What replaces it is genuinely open.</div>
+      </div>
+    </div>
+
+    <div class="callout reveal" style="margin-top:36px">
+      <strong>The pattern of resistance.</strong> 130+ countries abstained from or opposed Western positions in UN votes on Gaza. Global South solidarity is real. The protest movements across the world. Independent media. These are not sufficient — yet. But the overreach of the system is creating the conditions for its own challenge. Empires that overreach create the conditions for their own decline. This is not optimism. It is historical pattern.
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+  12: THE FRONTIERS
+============================================================ -->
+<section id="s12" class="dark-3">
+  <div class="chapter-num" style="color:rgba(255,255,255,0.04)">12</div>
+  <div class="container">
+    <div class="chapter-header reveal">
+      <div class="eyebrow">Chapter 12</div>
+      <h2 class="headline">The Frontiers:<br>What Changes Everything</h2>
+      <div class="divider"></div>
+      <p class="chapter-intro">Three forces are converging that could make everything we have analyzed obsolete — or infinitely worse. None of them are distant. All three are accelerating right now.</p>
+    </div>
+
+    <div class="reveal" style="margin-bottom:40px">
+      <div class="eyebrow gold">Frontier 1: Artificial Intelligence</div>
+      <p style="color:var(--dark-muted);font-size:16px;line-height:1.75;margin-bottom:20px">The spatial fix has always required cheap labor, new consumer markets, new data sources. AI disrupts all three simultaneously. If AI can do most cognitive work and robots can do most physical work, what is the value of cheap Indian or Central Asian labor? The spatial fix of finding cheaper labor markets becomes irrelevant when labor itself becomes cheap everywhere through automation.</p>
+      <div class="two-col">
+        <div>
+          <div style="font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--dark-faint);margin-bottom:12px">What AI disrupts</div>
+          <div class="numbered-list">
+            <div class="numbered-item"><div class="numbered-text" style="color:var(--dark-muted)">Labor value — cheap manufacturing advantage collapses</div></div>
+            <div class="numbered-item"><div class="numbered-text" style="color:var(--dark-muted)">Attention economy — unlimited generated content transforms engagement</div></div>
+            <div class="numbered-item"><div class="numbered-text" style="color:var(--dark-muted)">Human decision-making — AI makes faster decisions than oversight allows</div></div>
+            <div class="numbered-item"><div class="numbered-text" style="color:var(--dark-muted)">Military balance — autonomous weapons change all strategic equations</div></div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--dark-faint);margin-bottom:12px">Who wins the AI race wins the century</div>
+          <p style="font-size:15px;color:var(--dark-muted);line-height:1.7">This is why the US-China semiconductor war is the most important current conflict. More important than any military confrontation. Whoever controls the most advanced AI controls the most productive economy, the most capable military, the most effective surveillance, and the most persuasive information operations.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-bottom:40px">
+      <div class="eyebrow" style="color:#5a8fd4">Frontier 2: Monetary Transformation</div>
+      <p style="color:var(--dark-muted);font-size:16px;line-height:1.75;margin-bottom:20px">The dollar system is 82 years old. Global monetary systems last 30–100 years before collapsing and being replaced. The next monetary architecture will redistribute power as fundamentally as Bretton Woods in 1944. Who designs it designs the next century.</p>
+      <div class="card-grid">
+        <div class="card"><div class="card-title">CBDC — Digital Dollar</div><div class="card-text">Programmable money. Expiry dates. Complete transaction surveillance. Instant sanctions on individuals. The most powerful control tool ever invented. Dystopian potential matched by real government interest globally.</div></div>
+        <div class="card"><div class="card-title">BRICS Commodity Currency</div><div class="card-text">Gold-backed or commodity-backed alternative. Would end dollar's exorbitant privilege. Benefit resource-rich countries. India has opportunity here — significant gold holdings, resource base, UPI infrastructure already built.</div></div>
+        <div class="card"><div class="card-title">Decentralized Finance</div><div class="card-text">Blockchain enables transactions without banking system, contracts without legal system, finance without financial intermediaries. If this technology matures, the entire architecture we analyzed — the banks, dollar system, IMF — could become obsolete.</div></div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="eyebrow" style="color:#7ab87a">Frontier 3: The Ecological Limit</div>
+      <p style="color:var(--dark-muted);font-size:16px;line-height:1.75;margin-bottom:20px">Everything we analyzed assumes a stable enough planet to operate on. This assumption is increasingly questionable. And India is among the most climate-vulnerable large economies on earth.</p>
+      <div class="callout" style="border-color:rgba(122,184,122,0.25);background:rgba(122,184,122,0.04)">
+        <strong style="color:#7ab87a">The Himalayan glacier retreat</strong> is not a distant abstraction. The glaciers feeding the Ganges and Yamuna are retreating measurably every year. Agra sits in the Gangetic plain dependent on this water system. The India-Pakistan water conflict — written into the 1960 Indus Waters Treaty for a climate that no longer exists — is among the most likely triggers for the next major regional conflict. Climate change is not a separate issue from everything we analyzed. It is the ultimate consequence of the system we analyzed.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+  13: WHAT NOW
+============================================================ -->
+<section id="what-now" class="light">
+  <div class="chapter-num" style="color:rgba(0,0,0,0.04)">13</div>
+  <div class="container">
+    <div class="chapter-header reveal">
+      <div class="eyebrow ink">Chapter 13</div>
+      <h2 class="headline" style="color:var(--ink)">What Now:<br>How to Live With This Knowledge</h2>
+      <div class="divider"></div>
+      <p class="chapter-intro" style="color:#555">You can understand the system perfectly and still feel powerless to change it. That feeling is itself manufactured. The question of what to do with this understanding is ultimately unanswerable through analysis alone. It requires living. But here are the four honest options.</p>
+    </div>
+
+    <div class="path-grid reveal">
+      <div class="path-option">
+        <div class="path-num">01</div>
+        <div class="path-name">Build Personal Sovereignty</div>
+        <div class="path-text">Mountain homestead. Multiple income streams independent of single employer. Real assets — land, skills, productive capacity. Community — relationships of genuine mutual support. Reduced dependency on the system you understand is unsustainable.</div>
+        <div class="path-cost">Rational and admirable but incomplete. You cannot fully exit a system that covers the whole planet.</div>
+      </div>
+      <div class="path-option">
+        <div class="path-num">02</div>
+        <div class="path-name">Build Within the System Strategically</div>
+        <div class="path-text">Use the system's tools — entrepreneurship, technology, capital markets — to build genuine value. Accumulate enough resources to have genuine agency. Use that agency to support alternatives. StateFile, Cortexity: solving real problems.</div>
+        <div class="path-cost">Risks being absorbed. The system is very good at converting critics into participants.</div>
+      </div>
+      <div class="path-option">
+        <div class="path-num">03</div>
+        <div class="path-name">Organize and Resist</div>
+        <div class="path-text">Join or build movements for systemic change. Kerala model. Labor organizing. Political organizing. Community building outside the dominant frameworks. The hardest path but the one with the most systemic impact.</div>
+        <div class="path-cost">Requires sacrifice. You've already experienced losing friends for speaking honestly. The cost increases with visibility.</div>
+      </div>
+      <div class="path-option">
+        <div class="path-num">04</div>
+        <div class="path-name">Bear Witness and Educate</div>
+        <div class="path-text">Document. Analyze. Share understanding. Write the Substack piece on the Iran war. Publish the analysis that explains what CNN will not. The person who understands clearly and communicates honestly — even to one other person — breaks the manufactured consent the system depends on.</div>
+        <div class="path-cost">Matters more than it seems. Your friend at 2am is a naval officer. He goes back to his post carrying that conversation.</div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:48px">
+      <div class="eyebrow">Where to Start Reading</div>
+      <div class="card-grid-light">
+        <div class="card-light"><div class="card-tag">Start Here</div><div class="card-title">Confessions of an Economic Hit Man</div><div class="card-text">John Perkins. The IMF debt trap told from the inside by a practitioner. The most accessible entry point to the entire framework.</div></div>
+        <div class="card-light"><div class="card-tag">Then This</div><div class="card-title">The Shock Doctrine</div><div class="card-text">Naomi Klein. How crisis is used to open new territories. Documents the pattern case by case with primary sources.</div></div>
+        <div class="card-light"><div class="card-tag">Then This</div><div class="card-title">Debt: The First 5,000 Years</div><div class="card-text">David Graeber. Reframes money and debt from the beginning. The theoretical foundation that makes everything else make sense.</div></div>
+        <div class="card-light"><div class="card-tag">Read the Enemy's Manual</div><div class="card-title">The Grand Chessboard</div><div class="card-text">Zbigniew Brzezinski. American imperial strategy stated explicitly. Central Asia as key to global dominance. Written 1997. Describes 2026.</div></div>
+        <div class="card-light"><div class="card-tag">For India</div><div class="card-title">An Era of Darkness</div><div class="card-text">Shashi Tharoor. The economic case against British colonialism. India at 23% of world GDP when Britain arrived. 4% when it left. The foundation.</div></div>
+        <div class="card-light"><div class="card-tag">For the Mind</div><div class="card-title">Freedom from the Known</div><div class="card-text">Jiddu Krishnamurti. Can the mind conditioned by the system see it clearly? The deepest question asked accessibly. Read this last.</div></div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:48px;padding-top:40px;border-top:1px solid var(--border)">
+      <p class="subhead" style="color:var(--ink);max-width:580px">The world is burning in the specific places the tradition said it would burn. What you do with that knowledge — analytically and through your choices — is the question only you can answer.</p>
+      <div class="divider" style="margin-top:28px"></div>
+      <div style="display:flex;gap:12px;margin-top:28px;flex-wrap:wrap">
+        <a href="index.html" class="cta-btn primary" style="text-decoration:none">Read the Story Page</a>
+        <a href="#hero" class="cta-btn secondary" style="text-decoration:none">Back to the beginning</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="background:var(--dark);padding:48px 28px;text-align:center;border-top:1px solid var(--dark-line)">
+  <div style="font-family:'Fraunces',serif;font-size:22px;font-weight:600;color:var(--dark-text);margin-bottom:8px">Architecture of Power</div>
+  <div style="font-size:13px;color:var(--dark-faint);letter-spacing:0.5px">A companion to the Why Wars Happen story page</div>
+  <div style="margin-top:24px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+    <a href="index.html" style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--dark-muted);text-decoration:none">Story Page</a>
+    <span style="color:var(--dark-line)">|</span>
+    <a href="#s4" style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--dark-muted);text-decoration:none">The Chessboard</a>
+    <span style="color:var(--dark-line)">|</span>
+    <a href="#s7" style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--dark-muted);text-decoration:none">Who Runs It</a>
+    <span style="color:var(--dark-line)">|</span>
+    <a href="#what-now" style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--dark-muted);text-decoration:none">What Now</a>
+  </div>
+</footer>
+
+<script>
+// Progress bar
+const progressBar = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+  progressBar.style.width = scrolled + '%';
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+  updateDots();
+});
+
+// Nav dots
+function scrollTo(id) {
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
+}
+
+function updateDots() {
+  const sections = ['hero','s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11','s12','what-now'];
+  const dots = document.querySelectorAll('.c-dot');
+  let current = 0;
+  sections.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top < window.innerHeight * 0.5) current = i;
+  });
+  dots.forEach((d, i) => d.classList.toggle('active', i === current));
+}
+
+// Reveal on scroll
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+reveals.forEach(el => observer.observe(el));
+
+updateDots();
+</script>
+</body>
+</html>
