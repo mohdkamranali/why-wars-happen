@@ -200,13 +200,13 @@ section.light blockquote cite { color:#888; }
 
 /* CALLOUT */
 .callout {
-  background:var(--red-soft); border:1px solid rgba(184,48,37,0.18);
+  background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1);
   padding:22px 24px; margin:28px 0;
   font-size:16px; line-height:1.7;
 }
 .callout.gold { background:var(--gold-soft); border-color:rgba(139,111,46,0.22); }
 .callout.blue { background:var(--blue-soft); border-color:rgba(28,63,110,0.18); }
-section.light .callout { background:rgba(184,48,37,0.06); }
+section.light .callout { background:rgba(0,0,0,0.04); border-color:rgba(0,0,0,0.12); }
 
 /* TIMELINE */
 .timeline { margin:36px 0; }
@@ -348,29 +348,25 @@ section.light .card-text, section.light-warm .card-text { color:#444; }
   margin-bottom:32px; opacity:0; animation:fadeUp 0.8s ease 0.3s forwards;
 }
 .hero-display {
-  font-family:'Fraunces',serif; font-size:clamp(56px,12vw,140px);
-  font-weight:800; line-height:0.92; letter-spacing:-3px;
-  color:#fff; opacity:0; animation:fadeUp 1s ease 0.6s forwards;
+  font-family:'Fraunces',serif; font-size:clamp(68px,15vw,155px);
+  line-height:0.92; color:#fff; letter-spacing:-3px;
+  opacity:0; animation:fadeUp 1s ease 0.6s forwards; position:relative; z-index:1;
 }
 .hero-display .accent { color:var(--red); }
-.hero-display .gold { color:var(--gold); }
 .hero-unit {
-  font-size:clamp(14px,2vw,18px); color:var(--dark-muted); margin-top:18px;
-  font-weight:300; opacity:0; animation:fadeUp 0.8s ease 1s forwards; letter-spacing:0.5px;
+  font-size:clamp(14px,2.5vw,18px); color:rgba(255,255,255,0.45);
+  margin-top:14px; font-weight:300;
+  opacity:0; animation:fadeUp 0.8s ease 1s forwards; letter-spacing:0.5px;
 }
 .hero-title {
-  font-family:'Fraunces',serif; font-size:clamp(20px,3vw,30px);
-  color:rgba(255,255,255,0.7); margin-top:48px; line-height:1.4; font-weight:300; font-style:italic;
+  font-family:'Fraunces',serif; font-size:clamp(19px,3.2vw,28px);
+  color:rgba(255,255,255,0.88); margin-top:40px; line-height:1.4;
   opacity:0; animation:fadeUp 0.8s ease 1.3s forwards;
-  max-width:580px; margin-left:auto; margin-right:auto;
-}
-.hero-tagline {
-  font-size:14px; color:var(--dark-faint); margin-top:16px;
-  letter-spacing:0.5px; opacity:0; animation:fadeUp 0.8s ease 1.6s forwards;
+  max-width:540px; margin-left:auto; margin-right:auto;
 }
 .hero-cta {
-  margin-top:48px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;
-  opacity:0; animation:fadeUp 0.8s ease 1.9s forwards;
+  margin-top:44px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;
+  opacity:0; animation:fadeUp 0.8s ease 1.7s forwards;
 }
 .cta-btn {
   font-size:12px; letter-spacing:1.5px; text-transform:uppercase;
@@ -523,10 +519,42 @@ section.light .thinker.open .thinker-toggle { color:#666; }
 @media(max-width:700px) {
   .chapter-dots { display:none; }
   nav { padding:14px 16px; }
-  section { padding:90px 18px 70px; }
+  nav .nav-brand { font-size:12px; }
+  section { padding:90px 16px 70px; }
   .card-grid { grid-template-columns:1fr; }
   .position-grid { grid-template-columns:1fr; }
   .thinker-grid { grid-template-columns:1fr; }
+  .alt-grid { grid-template-columns:1fr; }
+  .path-grid { grid-template-columns:1fr; }
+
+  /* Toolkit filter wraps cleanly */
+  .toolkit-filter { gap:6px; }
+  .filter-btn { font-size:10px; padding:6px 10px; }
+  #toolkit-pills { gap:6px; }
+  .pill { font-size:11px; padding:6px 11px; }
+
+  /* War accordion mobile */
+  .war-header { flex-wrap:wrap; gap:6px; }
+  .war-year { font-size:17px; width:50px; }
+  .war-name { font-size:15px; flex:1; min-width:0; }
+  .war-tag { font-size:9px; padding:2px 7px; }
+  .war-arrow { margin-left:0; }
+  .war-detail { font-size:14px; }
+
+  /* Reading list mobile */
+  .reading-item { gap:10px; }
+  .read-title { font-size:15px; }
+  .read-author { font-size:12px; }
+
+  /* Stat blocks */
+  .stat-num { font-size:clamp(32px,8vw,48px); }
+
+  /* Two col stacks */
+  .two-col { grid-template-columns:1fr; gap:20px; }
+
+  /* Timeline */
+  .timeline-item { grid-template-columns:60px 1fr; gap:0 12px; }
+  .timeline-year { font-size:12px; }
 }
 </style>
 </head>
@@ -565,13 +593,10 @@ section.light .thinker.open .thinker-toggle { color:#666; }
 <section id="hero">
   <div class="container" style="position:relative;z-index:1">
     <div class="live-badge"><span class="live-dot"></span>Iran War Active: Day 8</div>
-    <div class="hero-display">
-      <div>$<span class="accent">195</span></div>
-      <div style="color:rgba(255,255,255,0.18)">trillion</div>
-    </div>
+    <div class="hero-display">~$<span class="accent">195</span><br>Trillion</div>
     <div class="hero-unit">The gap between what finance claims and what the world produces</div>
-    <div class="hero-title">That gap is the reason for every war you are watching.</div>
-    <div class="hero-tagline">14 layers. 500 years. The complete map.</div>
+    <div class="hero-title" style="font-style:italic;font-weight:300;color:rgba(255,255,255,0.7)">That gap is the reason for every war you are watching.</div>
+    <div style="font-size:14px;color:var(--dark-faint);margin-top:12px;letter-spacing:0.5px;opacity:0;animation:fadeUp 0.8s ease 1.6s forwards">14 layers. 500 years. The complete map.</div>
     <div class="hero-cta">
       <a href="#s1" class="cta-btn primary">Read from the beginning</a>
       <a href="#s4" class="cta-btn secondary">Jump to the chessboard</a>
@@ -619,7 +644,7 @@ section.light .thinker.open .thinker-toggle { color:#666; }
         <div class="timeline-year">1600s</div>
         <div class="timeline-content">
           <div class="timeline-title" style="color:var(--ink)">The East India Company: Finance as Empire</div>
-          <div class="timeline-text">Britain did not colonize India through military force alone. The East India Company was a joint stock company. Investors in London funded conquest. India went from an estimated 23% of world GDP to under 4% by the time British rule ended — figures from economic historian Angus Maddison's dataset, cited widely by Tharoor. Colonialism was as much a financial project as a military one. The infrastructure built was designed to extract resources outward, not to develop India.</div>
+          <div class="timeline-text">Britain did not colonize India through military force alone. The East India Company was a joint stock company. Investors in London funded conquest. India went from an estimated 23% of world GDP to under 4% by the time British rule ended, from economic historian Angus Maddison's dataset, cited widely by Tharoor. Colonialism was as much a financial project as a military one. The infrastructure built was designed to extract resources outward, not to develop India.</div>
         </div>
       </div>
       <div class="timeline-item">
@@ -646,7 +671,7 @@ section.light .thinker.open .thinker-toggle { color:#666; }
     </div>
 
     <div class="callout reveal" style="margin-top:36px">
-      <strong>The key insight:</strong> This is why every country that tried to price oil outside the dollar system faced extraordinary consequences. Iraq switched to Euros in 2000 — invaded in 2003. Libya planned a gold-backed African currency — destroyed in 2011. Iran has priced oil outside dollars for decades — at war right now.
+      <strong>The key insight:</strong> This is why every country that tried to price oil outside the dollar system faced extraordinary consequences. Iraq switched to Euros in 2000, invaded in 2003. Libya planned a gold-backed African currency, destroyed in 2011. Iran has priced oil outside dollars for decades, at war right now.
       <div style="margin-top:8px">
         <span class="evidence documented">Documented: Iraq Euro oil switch, 2000</span>
         <span class="evidence documented">Documented: Gaddafi gold dinar plan</span>
@@ -686,7 +711,7 @@ section.light .thinker.open .thinker-toggle { color:#666; }
         </div>
         <div class="stat-block" style="margin-top:20px;border-color:var(--dark-muted)">
           <div class="stat-num" style="color:var(--dark-muted)">$195T</div>
-          <div class="stat-label">The gap — claims with nowhere real to go</div>
+          <div class="stat-label">The gap: claims with nowhere real to go</div>
         </div>
       </div>
       <div class="reveal">
@@ -702,7 +727,7 @@ section.light .thinker.open .thinker-toggle { color:#666; }
             <div class="numbered-text"><strong style="color:var(--dark-text)">Collapse and reset:</strong> The system implodes. Debts cancelled. Assets written down. At $300 trillion scale, this would be the largest economic catastrophe in human history.</div>
           </div>
         </div>
-        <p style="color:var(--dark-muted);font-size:15px;margin-top:16px;font-style:italic">The elites running the system know this. The wars, the chaos, the acceleration — these are attempts to avoid Option 3.</p>
+        <p style="color:var(--dark-muted);font-size:15px;margin-top:16px;font-style:italic">The elites running the system know this. The wars, the chaos, the acceleration. These are attempts to avoid Option 3.</p>
       </div>
     </div>
 
@@ -710,12 +735,12 @@ section.light .thinker.open .thinker-toggle { color:#666; }
       <div class="eyebrow gold">The Historical Pattern</div>
       <p style="color:var(--dark-muted);font-size:16px;margin-bottom:20px">Every time capitalism has faced saturation it has opened new territories. This cycle has been running continuously for 500 years:</p>
       <div class="card-grid">
-        <div class="card"><div class="card-tag">1870s–1900s</div><div class="card-title">Scramble for Africa</div><div class="card-text">Africa carved up by European powers. 14 nations, 1884 Berlin Conference. Not one African invited.</div></div>
-        <div class="card"><div class="card-tag">Post–1918</div><div class="card-title">Middle East Opened</div><div class="card-text">Ottoman collapse. Sykes-Picot lines drawn. British and French mandates. The borders you see today.</div></div>
-        <div class="card"><div class="card-tag">Post–1945</div><div class="card-title">Decolonized Nations Opened</div><div class="card-text">Independence given with strings. IMF/World Bank integration. Dollar system dependency built in.</div></div>
+        <div class="card"><div class="card-tag">1870s to 1900s</div><div class="card-title">Scramble for Africa</div><div class="card-text">Africa carved up by European powers. 14 nations, 1884 Berlin Conference. Not one African invited.</div></div>
+        <div class="card"><div class="card-tag">Post 1918</div><div class="card-title">Middle East Opened</div><div class="card-text">Ottoman collapse. Sykes-Picot lines drawn. British and French mandates. The borders you see today.</div></div>
+        <div class="card"><div class="card-tag">Post 1945</div><div class="card-title">Decolonized Nations Opened</div><div class="card-text">Independence given with strings. IMF/World Bank integration. Dollar system dependency built in.</div></div>
         <div class="card"><div class="card-tag">1990s</div><div class="card-title">Soviet Collapse Opened</div><div class="card-text">Eastern Europe, Central Asia, Russia itself briefly opened to Western capital. Oligarchs and shock therapy.</div></div>
         <div class="card"><div class="card-tag">2000s</div><div class="card-title">Iraq, Afghanistan</div><div class="card-text">Opened by force. Oil contracts. Reconstruction deals. Halliburton: $39.5 billion. New dependencies created.</div></div>
-        <div class="card" style="border-left:2px solid var(--red)"><div class="card-tag" style="color:var(--red)">Now — 2026</div><div class="card-title">Iran, Central Asia</div><div class="card-text">The current frontier. $5 trillion in untapped resources. The gateway: Iran. The prize: Central Asia.</div></div>
+        <div class="card" style="border-left:2px solid var(--red)"><div class="card-tag" style="color:var(--red)">Now: 2026</div><div class="card-title">Iran, Central Asia</div><div class="card-text">The current frontier. $5 trillion in untapped resources. The gateway: Iran. The prize: Central Asia.</div></div>
       </div>
     </div>
 
@@ -801,7 +826,7 @@ section.light .thinker.open .thinker-toggle { color:#666; }
           <div class="card-text">Gaddafi planned gold-backed African currency. Africa's largest oil reserves, state-controlled. Sanctions and isolation. Then NATO intervention. Gaddafi killed. Oil sector fragmented. Foreign companies entered. $67 billion sovereign wealth fund frozen and partially accessed by Western institutions. Currency plan died.</div>
         </div>
         <div class="card-light">
-          <div class="card-tag">Iran 1953–2026</div>
+          <div class="card-tag">Iran 1953 to 2026</div>
           <div class="card-title">73 Years in the Making</div>
           <div class="card-text">1953: CIA/MI6 coup overthrows Mosaddegh after oil nationalization. 1979: Revolution. 45 years of sanctions. Nuclear program used as justification. Israeli proxy degradation of resistance axis. October 7 intelligence questions. February 28, 2026: Operation Roaring Lion. Khamenei assassinated. Tehran struck.</div>
         </div>
@@ -943,7 +968,7 @@ section.light .thinker.open .thinker-toggle { color:#666; }
       <div class="war-item open" onclick="toggleWar(this)">
         <div class="war-header">
           <div class="war-year">1953</div>
-          <div class="war-name">Iran — Operation Ajax</div>
+          <div class="war-name">Iran: Operation Ajax</div>
           <div class="war-tag">Covert</div>
           <div class="war-arrow">▼</div>
         </div>
@@ -954,18 +979,18 @@ section.light .thinker.open .thinker-toggle { color:#666; }
       <div class="war-item" onclick="toggleWar(this)">
         <div class="war-header">
           <div class="war-year">1964</div>
-          <div class="war-name">Vietnam — Gulf of Tonkin</div>
+          <div class="war-name">Vietnam: Gulf of Tonkin</div>
           <div class="war-tag">False Pretext</div>
           <div class="war-arrow">▼</div>
         </div>
-        <div class="war-detail">North Vietnamese forces allegedly attack US ships twice. Congress authorizes massive escalation. Robert McNamara later expressed serious doubt in his memoir and in the documentary The Fog of War that the second attack ever occurred — stating the decision to escalate was likely based on unreliable intelligence. 58,000 Americans died. Millions of Vietnamese. The war was built on contested intelligence used to justify a predetermined policy.
+        <div class="war-detail">North Vietnamese forces allegedly attack US ships twice. Congress authorizes massive escalation. Robert McNamara later expressed serious doubt in his memoir and in the documentary The Fog of War that the second attack ever occurred, stating the decision to escalate was likely based on unreliable intelligence. 58,000 Americans died. Millions of Vietnamese. The war was built on contested intelligence used to justify a predetermined policy.
           <div style="margin-top:10px"><span class="evidence documented" style="background:rgba(122,184,122,0.08);color:rgba(80,160,80,0.9)">Source: McNamara, In Retrospect, 1995; The Fog of War, 2003</span></div>
         </div>
       </div>
       <div class="war-item" onclick="toggleWar(this)">
         <div class="war-header">
           <div class="war-year">1980s</div>
-          <div class="war-name">Iran-Iraq War — Both Sides Funded</div>
+          <div class="war-name">Iran-Iraq War: Both Sides Funded</div>
           <div class="war-tag">Proxy</div>
           <div class="war-arrow">▼</div>
         </div>
@@ -976,7 +1001,7 @@ section.light .thinker.open .thinker-toggle { color:#666; }
       <div class="war-item" onclick="toggleWar(this)">
         <div class="war-header">
           <div class="war-year">2003</div>
-          <div class="war-name">Iraq — Manufactured War</div>
+          <div class="war-name">Iraq: Manufactured War</div>
           <div class="war-tag">Fabricated Intelligence</div>
           <div class="war-arrow">▼</div>
         </div>
@@ -987,7 +1012,7 @@ section.light .thinker.open .thinker-toggle { color:#666; }
       <div class="war-item" onclick="toggleWar(this)">
         <div class="war-header">
           <div class="war-year">2011</div>
-          <div class="war-name">Libya — Gold Currency Plan Killed</div>
+          <div class="war-name">Libya: Gold Currency Plan Killed</div>
           <div class="war-tag">Resource Control</div>
           <div class="war-arrow">▼</div>
         </div>
@@ -998,19 +1023,19 @@ section.light .thinker.open .thinker-toggle { color:#666; }
       <div class="war-item open" onclick="toggleWar(this)" style="border-left:2px solid var(--red);padding-left:16px">
         <div class="war-header">
           <div class="war-year" style="color:var(--red)">2026</div>
-          <div class="war-name">Iran — The Current War</div>
-          <div class="war-tag" style="color:var(--red)">Live — Day 8</div>
+          <div class="war-name">Iran: The Current War</div>
+          <div class="war-tag" style="color:var(--red)">Live: Day 8</div>
           <div class="war-arrow">▼</div>
         </div>
         <div class="war-detail" style="padding-top:12px">Operation Roaring Lion (Israel) / Operation Epic Fury (US). Began February 28, 2026. Khamenei assassinated in opening strikes on Tehran. 1,230+ dead in Iran. Iran launched 500+ ballistic missiles and 2,000+ drones across 9 countries. Natanz nuclear facility struck. US submarine sank Iranian warship near Sri Lanka. India silent. Only 25% of the American public supports the operation. US Senate voted 53-47 to continue without formal Congressional authorization.
-          <div style="margin-top:10px"><span class="evidence documented" style="background:rgba(122,184,122,0.08);color:rgba(80,160,80,0.9)">Ongoing — March 2026</span></div>
+          <div style="margin-top:10px"><span class="evidence documented" style="background:rgba(122,184,122,0.08);color:rgba(80,160,80,0.9)">Ongoing: March 2026</span></div>
         </div>
       </div>
     </div>
 
     <blockquote class="reveal" style="border-left-color:var(--ink);color:var(--ink)">
       "The intelligence and facts were being fixed around the policy."
-      <cite style="color:#888">The Downing Street Memo, British Cabinet minutes, July 2002 — on Iraq WMD intelligence</cite>
+      <cite style="color:#888">The Downing Street Memo, British Cabinet minutes, July 2002, on Iraq WMD intelligence</cite>
     </blockquote>
   </div>
 </section>
@@ -1096,7 +1121,7 @@ section.light .thinker.open .thinker-toggle { color:#666; }
           <div class="tier-num">01</div>
           <div class="tier-name">The Financial Complex</div>
         </div>
-        <div class="tier-examples">BlackRock ($10 trillion AUM, Aladdin system manages $20 trillion in risk). JPMorgan Chase ($3.7 trillion in assets). Goldman Sachs (the revolving door machine — Rubin, Paulson, Mnuchin all Treasury Secretaries). Vanguard, State Street. Together BlackRock, Vanguard, and State Street own ~20% of every S&P 500 company. BlackRock appointed to coordinate Ukraine reconstruction before the war ended.</div>
+        <div class="tier-examples">BlackRock ($10 trillion AUM, Aladdin system manages $20 trillion in risk). JPMorgan Chase ($3.7 trillion in assets). Goldman Sachs (the revolving door machine: Rubin, Paulson, Mnuchin, all Treasury Secretaries). Vanguard, State Street. Together BlackRock, Vanguard, and State Street own ~20% of every S&P 500 company. BlackRock appointed to coordinate Ukraine reconstruction before the war ended.</div>
       </div>
 
       <div class="tier">
@@ -1120,7 +1145,7 @@ section.light .thinker.open .thinker-toggle { color:#666; }
           <div class="tier-num">04</div>
           <div class="tier-name">The Think Tank Complex</div>
         </div>
-        <div class="tier-examples">Foundation for Defense of Democracies (FDD): almost entirely focused on Iran regime change. Funded substantially by pro-Israel donors. Mark Dubowitz most influential voice for Iran military action for 20 years. AEI: consistent advocate for military intervention. Brookings: funded by defense contractors and Gulf states. Hudson Institute. RAND. The mechanism: publish paper — cited in congressional testimony — analyst joins administration — policy implemented — analyst returns to think tank. Entirely legal. Entirely visible. Extraordinarily effective.</div>
+        <div class="tier-examples">Foundation for Defense of Democracies (FDD): almost entirely focused on Iran regime change. Funded substantially by pro-Israel donors. Mark Dubowitz most influential voice for Iran military action for 20 years. AEI: consistent advocate for military intervention. Brookings: funded by defense contractors and Gulf states. Hudson Institute. RAND. The mechanism: publish paper, cited in congressional testimony, analyst joins administration, policy implemented, analyst returns to think tank. Entirely legal. Entirely visible. Extraordinarily effective.</div>
       </div>
 
       <div class="tier">
@@ -1142,7 +1167,7 @@ section.light .thinker.open .thinker-toggle { color:#666; }
 
     <blockquote class="reveal" style="margin-top:36px">
       "In the councils of government, we must guard against the acquisition of unwarranted influence, whether sought or unsought, by the military-industrial complex."
-      <cite>President Dwight D. Eisenhower, farewell address, 1961 — the outgoing US President warning his own nation</cite>
+      <cite>President Dwight D. Eisenhower, farewell address, 1961, the outgoing US President warning his own nation</cite>
     </blockquote>
   </div>
 </section>
@@ -1171,7 +1196,7 @@ section.light .thinker.open .thinker-toggle { color:#666; }
         <div class="card-light"><div class="card-tag">1990s-Now</div><div class="card-title">Water</div><div class="card-text">Previously a commons. Now bottled water is a $300 billion industry. Water rights being privatized globally. Nestle: "water is not a public right."</div></div>
         <div class="card-light"><div class="card-tag">1990s-Now</div><div class="card-title">Seeds</div><div class="card-text">Previously saved and shared by farmers for millennia. Now patented by Monsanto/Bayer. Farmers must buy seeds annually. Suicide rates among Indian farmers with Bt cotton debts.</div></div>
         <div class="card-light"><div class="card-tag">2000s-Now</div><div class="card-title">Attention</div><div class="card-text">Previously your own. Now extracted by social media platforms. Facebook, Instagram, TikTok are attention extraction machines. Each hour captured equals advertising revenue.</div></div>
-        <div class="card-light"><div class="card-tag">2010s-Now</div><div class="card-title">Data</div><div class="card-text">Previously private. Now extracted and sold. You are not the customer. You are the product. Every click, purchase, location, relationship — commodified.</div></div>
+        <div class="card-light"><div class="card-tag">2010s-Now</div><div class="card-title">Data</div><div class="card-text">Previously private. Now extracted and sold. You are not the customer. You are the product. Every click, purchase, location, relationship, commodified.</div></div>
         <div class="card-light"><div class="card-tag">2020s-Now</div><div class="card-title">Nature</div><div class="card-text">Forests, rivers, biodiversity being converted into carbon credits and ecosystem services. Nature becomes a financial instrument controlled by financial institutions.</div></div>
         <div class="card-light" style="border-top:2px solid var(--red)"><div class="card-tag" style="color:var(--red)">Next Frontier</div><div class="card-title">Space</div><div class="card-text">The ultimate disconnected territory. No existing sovereign owners. First to establish presence establishes claim. A single asteroid can contain more platinum than mined in all human history.</div></div>
       </div>
@@ -1210,30 +1235,30 @@ section.light .thinker.open .thinker-toggle { color:#666; }
 
       <div class="thinker" style="max-width:640px">
         <div class="thinker-name">Antonio Gramsci</div>
-        <div class="thinker-dates">1891–1937 — Writing from Mussolini's Prison</div>
+        <div class="thinker-dates">1891 to 1937, Writing from Mussolini's Prison</div>
         <div class="thinker-concept">Cultural Hegemony</div>
-        <div class="thinker-text">The ruling class maintains power not primarily through force but through cultural hegemony: making their worldview the common sense worldview of everyone. When working class people vote against their economic interests — cultural hegemony. When Indians celebrate Adani as national success story without questioning his practices — cultural hegemony. When people accept that billionaires deserve wealth because they "worked hard" — cultural hegemony. The antidote Gramsci proposed: organic intellectuals — people from within communities who develop alternative frameworks.</div>
+        <div class="thinker-text">The ruling class maintains power not primarily through force but through cultural hegemony: making their worldview the common sense worldview of everyone. When working class people vote against their economic interests: cultural hegemony. When Indians celebrate Adani as national success story without questioning his practices: cultural hegemony. When people accept that billionaires deserve wealth because they "worked hard": cultural hegemony. The antidote Gramsci proposed: organic intellectuals, people from within communities who develop alternative frameworks.</div>
       </div>
 
       <div class="thinker" style="max-width:640px">
         <div class="thinker-name">Michel Foucault</div>
-        <div class="thinker-dates">1926–1984</div>
+        <div class="thinker-dates">1926 to 1984</div>
         <div class="thinker-concept">Power-Knowledge and the Panopticon</div>
-        <div class="thinker-text">Power operates not just through force but through controlling what counts as knowledge, what questions can be asked, what is considered rational or sane. The person who questions the official narrative of October 7 is called a conspiracy theorist. The person who questions Western narrative on Iran is called an apologist for theocracy. These labels are power operating through knowledge — determining what can be thought. The Panopticon: when people believe they might always be watched, they discipline themselves. Digital surveillance capitalism is the Panopticon at civilizational scale.</div>
+        <div class="thinker-text">Power operates not just through force but through controlling what counts as knowledge, what questions can be asked, what is considered rational or sane. The person who questions the official narrative of October 7 is called a conspiracy theorist. The person who questions Western narrative on Iran is called an apologist for theocracy. These labels are power operating through knowledge, determining what can be thought. The Panopticon: when people believe they might always be watched, they discipline themselves. Digital surveillance capitalism is the Panopticon at civilizational scale.</div>
       </div>
 
       <div class="thinker" style="max-width:640px">
         <div class="thinker-name">Noam Chomsky and Edward Herman</div>
         <div class="thinker-dates">Manufacturing Consent, 1988</div>
         <div class="thinker-concept">Manufactured Consent</div>
-        <div class="thinker-text">Populations do not need to be forced to support systems that harm them. They can be manufactured into consenting through: media framing, the educational system, entertainment, religious institutions, consumer culture. The person worried about Pakistan, angry about reservations, excited about cricket, distracted by Netflix — is not thinking about BlackRock absorbing their savings. Distraction is control. The media does not take instructions from government. It does not need to. Shared structural incentives produce the same result.</div>
+        <div class="thinker-text">Populations do not need to be forced to support systems that harm them. They can be manufactured into consenting through: media framing, the educational system, entertainment, religious institutions, consumer culture. The person worried about Pakistan, angry about reservations, excited about cricket, distracted by Netflix, is not thinking about BlackRock absorbing their savings. Distraction is control. The media does not take instructions from government. It does not need to. Shared structural incentives produce the same result.</div>
       </div>
 
       <div class="thinker" style="max-width:640px">
         <div class="thinker-name">Jiddu Krishnamurti</div>
-        <div class="thinker-dates">1895–1986 — Bellary, Andhra Pradesh</div>
+        <div class="thinker-dates">1895 to 1986, Bellary, Andhra Pradesh</div>
         <div class="thinker-concept">The Observer and the Observed</div>
-        <div class="thinker-text">The frameworks we use — nation, interest, development, progress — are themselves products of the system. To truly see the system requires stepping outside the frameworks it gave us. This is why physical and mental distance from the system creates the perspective to see it. Krishnamurti's question was not about politics but about the mind itself: can you observe your own conditioning while you are conditioned? The answer is partially yes — and that partial yes is the beginning of freedom.</div>
+        <div class="thinker-text">The frameworks we use: nation, interest, development, progress, are themselves products of the system. To truly see the system requires stepping outside the frameworks it gave us. This is why physical and mental distance from the system creates the perspective to see it. Krishnamurti's question was not about politics but about the mind itself: can you observe your own conditioning while you are conditioned? The answer is partially yes, and that partial yes is the beginning of freedom.</div>
         <blockquote style="margin-top:16px">
           "It is no measure of health to be well adjusted to a profoundly sick society."
           <cite>Jiddu Krishnamurti</cite>
@@ -1242,7 +1267,7 @@ section.light .thinker.open .thinker-toggle { color:#666; }
     </div>
 
     <div class="callout reveal" style="margin-top:36px">
-      <strong>What this means practically.</strong> Seeing through the system does not require a perfect view from outside. It requires honest friction between people willing to question what they have been taught. A partial, contested, genuinely uncertain view from inside is more valuable than confident analysis built on unexamined assumptions. The methodology is the conversation itself — not the conclusion it reaches.
+      <strong>What this means practically.</strong> Seeing through the system does not require a perfect view from outside. It requires honest friction between people willing to question what they have been taught. A partial, contested, genuinely uncertain view from inside is more valuable than confident analysis built on unexamined assumptions. The methodology is the conversation itself, not the conclusion it reaches.
     </div>
   </div>
 </section>
@@ -1263,9 +1288,9 @@ section.light .thinker.open .thinker-toggle { color:#666; }
     <div class="thinker-grid reveal">
       <div class="thinker" style="background:var(--paper);border-color:var(--border)">
         <div class="thinker-name" style="color:var(--ink)">Vladimir Lenin</div>
-        <div class="thinker-dates" style="color:#888">1870–1924 — Written During WWI, 1916</div>
+        <div class="thinker-dates" style="color:#888">1870 to 1924, Written During WWI, 1916</div>
         <div class="thinker-concept">Imperialism as Highest Stage</div>
-        <div class="thinker-text" style="color:#555">Capitalism inevitably produces imperialism — the export of capital to new territories when domestic markets saturate. Written 109 years ago as explanation of why WWI was happening. It describes 2026 with remarkable precision. Capitalism does not just need new markets. It needs to export capital itself. The spatial fix is built into the system's DNA.</div>
+        <div class="thinker-text" style="color:#555">Capitalism inevitably produces imperialism: the export of capital to new territories when domestic markets saturate. Written 109 years ago as explanation of why WWI was happening. It describes 2026 with remarkable precision. Capitalism does not just need new markets. It needs to export capital itself. The spatial fix is built into the system's DNA.</div>
         <blockquote style="color:var(--ink);border-left-color:var(--red)">
           "The war was an annexationist, predatory, plunderous war. Its historical and economic background must be studied to understand modern politics."
           <cite style="color:#888">Lenin, Imperialism: The Highest Stage of Capitalism, 1916</cite>
@@ -1274,9 +1299,9 @@ section.light .thinker.open .thinker-toggle { color:#666; }
 
       <div class="thinker" style="background:var(--paper);border-color:var(--border)">
         <div class="thinker-name" style="color:var(--ink)">David Harvey</div>
-        <div class="thinker-dates" style="color:#888">Born 1935 — The New Imperialism, 2003</div>
+        <div class="thinker-dates" style="color:#888">Born 1935, The New Imperialism, 2003</div>
         <div class="thinker-concept">Spatial Fix and Accumulation by Dispossession</div>
-        <div class="thinker-text" style="color:#555">Overaccumulation crisis drives capital to seek new territories. Accumulation by dispossession: capitalism's ongoing requirement to enclose new commons — privatizing water, patenting seeds, financializing savings, securitizing nature. The Adani pattern. The BlackRock pattern. The wars for resources pattern. All the same mechanism.</div>
+        <div class="thinker-text" style="color:#555">Overaccumulation crisis drives capital to seek new territories. Accumulation by dispossession: capitalism's ongoing requirement to enclose new commons: privatizing water, patenting seeds, financializing savings, securitizing nature. The Adani pattern. The BlackRock pattern. The wars for resources pattern. All the same mechanism.</div>
         <blockquote style="color:var(--ink);border-left-color:var(--red)">
           "Finance capital backed by state power amounts to accumulation by other means."
           <cite style="color:#888">Harvey, The New Imperialism, 2003</cite>
@@ -1285,9 +1310,9 @@ section.light .thinker.open .thinker-toggle { color:#666; }
 
       <div class="thinker" style="background:var(--paper);border-color:var(--border)">
         <div class="thinker-name" style="color:var(--ink)">Shashi Tharoor</div>
-        <div class="thinker-dates" style="color:#888">Born 1956 — An Era of Darkness, 2016</div>
+        <div class="thinker-dates" style="color:#888">Born 1956, An Era of Darkness, 2016</div>
         <div class="thinker-concept">The Economic Cost of Colonialism</div>
-        <div class="thinker-text" style="color:#555">India held 23% of world GDP when Britain arrived. 4% when it left. The East India Company was the original IMF — bringing "development" with strings attached. Tharoor's Oxford Union speech made the case so precisely that the video went globally viral. The argument: colonialism was not just political oppression. It was deliberate economic destruction. Understanding this is prerequisite to understanding India's current position.</div>
+        <div class="thinker-text" style="color:#555">India held 23% of world GDP when Britain arrived. 4% when it left. The East India Company was the original IMF, bringing "development" with strings attached. Tharoor's Oxford Union speech made the case so precisely that the video went globally viral. The argument: colonialism was not just political oppression. It was deliberate economic destruction. Understanding this is prerequisite to understanding India's current position.</div>
         <blockquote style="color:var(--ink);border-left-color:var(--red)">
           "It's a bit rich to oppress, enslave, kill and torture people for 200 years and then celebrate the fact that they are democratic at the end of it."
           <cite style="color:#888">Tharoor, Oxford Union, 2015</cite>
@@ -1296,37 +1321,37 @@ section.light .thinker.open .thinker-toggle { color:#666; }
 
       <div class="thinker" style="background:var(--paper);border-color:var(--border)">
         <div class="thinker-name" style="color:var(--ink)">David Graeber</div>
-        <div class="thinker-dates" style="color:#888">1961–2020 — Debt: The First 5,000 Years, 2011</div>
+        <div class="thinker-dates" style="color:#888">1961 to 2020, Debt: The First 5,000 Years, 2011</div>
         <div class="thinker-concept">Debt as the Primary Tool of Control</div>
         <div class="thinker-text" style="color:#555">Money did not emerge from barter. It emerged from debt relationships and power. This single insight reframes everything: why nations are in permanent debt, why the IMF model works the way it does, why debt is the primary tool of control, why the story told in economics textbooks is backwards. The debt trap is not a modern invention. It is the oldest instrument of subjugation in human civilization.</div>
       </div>
 
       <div class="thinker" style="background:var(--paper);border-color:var(--border)">
         <div class="thinker-name" style="color:var(--ink)">Naomi Klein</div>
-        <div class="thinker-dates" style="color:#888">Born 1970 — The Shock Doctrine, 2007</div>
+        <div class="thinker-dates" style="color:#888">Born 1970, The Shock Doctrine, 2007</div>
         <div class="thinker-concept">Disaster Capitalism</div>
-        <div class="thinker-text" style="color:#555">Crisis — sometimes manufactured — is used to implement radical policies that transfer wealth upward. Chile 1973. Argentina. Russia 1990s. Iraq 2003. New Orleans after Katrina. Ukraine reconstruction with BlackRock appointed before the war ended. The pattern: shock creates opportunity for those with capital to buy assets cheaply, enter markets previously closed, restructure economies in their favor. You said it yourself: capitalism finds opportunity in chaos.</div>
+        <div class="thinker-text" style="color:#555">Crisis, sometimes manufactured, is used to implement radical policies that transfer wealth upward. Chile 1973. Argentina. Russia 1990s. Iraq 2003. New Orleans after Katrina. Ukraine reconstruction with BlackRock appointed before the war ended. The pattern: shock creates opportunity for those with capital to buy assets cheaply, enter markets previously closed, restructure economies in their favor. Capitalism finds opportunity in chaos.</div>
       </div>
 
       <div class="thinker" style="background:var(--paper);border-color:var(--border)">
         <div class="thinker-name" style="color:var(--ink)">Frantz Fanon</div>
-        <div class="thinker-dates" style="color:#888">1925–1961 — Wretched of the Earth, 1961</div>
+        <div class="thinker-dates" style="color:#888">1925 to 1961, Wretched of the Earth, 1961</div>
         <div class="thinker-concept">The Psychology of Colonialism</div>
-        <div class="thinker-text" style="color:#555">How colonialism damages both colonized and colonizer. How liberation movements are co-opted. Most importantly for India: how national bourgeoisies replace colonial powers without changing the extractive structure. Did independence actually change the system — or did it just change who sits at the top? The Adani-Modi nexus as the post-colonial elite replicating colonial extraction domestically. Fanon asked this question 64 years ago.</div>
+        <div class="thinker-text" style="color:#555">How colonialism damages both colonized and colonizer. How liberation movements are co-opted. Most importantly for India: how national bourgeoisies replace colonial powers without changing the extractive structure. Did independence actually change the system, or did it just change who sits at the top? The Adani-Modi nexus as the post-colonial elite replicating colonial extraction domestically. Fanon asked this question 64 years ago.</div>
       </div>
 
       <div class="thinker" style="background:var(--paper);border-color:var(--border)">
         <div class="thinker-name" style="color:var(--ink)">Ibn Khaldun</div>
-        <div class="thinker-dates" style="color:#888">1332–1406 — The Muqaddimah</div>
+        <div class="thinker-dates" style="color:#888">1332 to 1406, The Muqaddimah</div>
         <div class="thinker-concept">The Rise and Fall of Civilizations</div>
-        <div class="thinker-text" style="color:#555">The first systematic theory of history and social change. Written by a North African Muslim scholar 650 years ago. Asabiyyah — social solidarity — is the key variable in the rise and fall of civilizations. Civilizations rise through strong social solidarity. They fall when elites become corrupt and lose connection to the people. He describes the American empire, the Indian political class, and the global financial complex today with perfect accuracy. A non-Western framework that predates Marx by five centuries.</div>
+        <div class="thinker-text" style="color:#555">The first systematic theory of history and social change. Written by a North African Muslim scholar 650 years ago. Asabiyyah: social solidarity, is the key variable in the rise and fall of civilizations. Civilizations rise through strong social solidarity. They fall when elites become corrupt and lose connection to the people. He describes the American empire, the Indian political class, and the global financial complex today with perfect accuracy. A non-Western framework that predates Marx by five centuries.</div>
       </div>
 
       <div class="thinker" style="background:var(--paper);border-color:var(--border)">
         <div class="thinker-name" style="color:var(--ink)">John Perkins</div>
-        <div class="thinker-dates" style="color:#888">Born 1945 — Confessions of an Economic Hit Man, 2004</div>
+        <div class="thinker-dates" style="color:#888">Born 1945, Confessions of an Economic Hit Man, 2004</div>
         <div class="thinker-concept">The Debt Trap from the Inside</div>
-        <div class="thinker-text" style="color:#555">Perkins was an actual economic hit man — his own term for himself. He worked for a consulting firm making inflated economic projections for developing countries to justify enormous World Bank and IMF loans. Countries couldn't repay. Assets were seized. Policy control was established. He did this in Ecuador, Panama, Colombia, Indonesia, Iran, Saudi Arabia. He names names. He describes specific operations. This is not theory. This is a practitioner's confession.</div>
+        <div class="thinker-text" style="color:#555">Perkins was an actual economic hit man, his own term for himself. He worked for a consulting firm making inflated economic projections for developing countries to justify enormous World Bank and IMF loans. Countries couldn't repay. Assets were seized. Policy control was established. He did this in Ecuador, Panama, Colombia, Indonesia, Iran, Saudi Arabia. He names names. He describes specific operations. This is not theory. This is a practitioner's confession.</div>
       </div>
     </div>
   </div>
@@ -1348,49 +1373,49 @@ section.light .thinker.open .thinker-toggle { color:#666; }
     <div class="alt-grid reveal">
       <div class="alt-card">
         <div class="alt-name">Kerala Model</div>
-        <div class="alt-where">India — Ongoing since 1950s</div>
-        <div class="alt-text">Land reform breaking landlord power. Universal education — 100% literacy. Universal healthcare — life expectancy matching developed countries. Women's empowerment — highest female labor participation in India. Democratic decentralization — genuine local governance. On a fraction of Gujarat's per capita income, Kerala achieved human development outcomes matching wealthy nations.</div>
+        <div class="alt-where">India, Ongoing since 1950s</div>
+        <div class="alt-text">Land reform breaking landlord power. Universal education: 100% literacy. Universal healthcare with life expectancy matching developed countries. Women's empowerment, highest female labor participation in India. Democratic decentralization, genuine local governance. On a fraction of Gujarat's per capita income, Kerala achieved human development outcomes matching wealthy nations.</div>
         <div class="alt-lesson">Happened through sustained political organizing by left parties over decades. Not through foreign investment or billionaire philanthropy.</div>
       </div>
 
       <div class="alt-card">
         <div class="alt-name">Zapatistas</div>
-        <div class="alt-where">Chiapas, Mexico — 1994 to Present</div>
-        <div class="alt-text">Indigenous Maya community. Rose up on the day NAFTA came into effect — which they correctly predicted would destroy their agricultural communities. Not to take national power. To create autonomous zones. 30 years later: run their own schools, healthcare, justice system. Govern through consensus assemblies. Reject both capitalism and state socialism. Survived military pressure, paramilitary attacks, and economic strangulation.</div>
+        <div class="alt-where">Chiapas, Mexico, 1994 to Present</div>
+        <div class="alt-text">Indigenous Maya community. Rose up on the day NAFTA came into effect, which they correctly predicted would destroy their agricultural communities. Not to take national power. To create autonomous zones. 30 years later: run their own schools, healthcare, justice system. Govern through consensus assemblies. Reject both capitalism and state socialism. Survived military pressure, paramilitary attacks, and economic strangulation.</div>
         <div class="alt-lesson">They are still there. Proof that autonomous communities outside the dominant system can survive.</div>
       </div>
 
       <div class="alt-card">
         <div class="alt-name">Bolivia under Morales</div>
-        <div class="alt-where">Bolivia — 2006–2019</div>
-        <div class="alt-text">First indigenous president of Bolivia. Nationalized natural gas — revenues previously going to foreign corporations redirected to poverty reduction, education, healthcare, infrastructure. Bolivia went from one of South America's poorest to sustained economic growth with decreasing inequality. Removed in a coup in 2019 — evidence suggests US involvement. Returned through elections in 2020.</div>
+        <div class="alt-where">Bolivia, 2006 to 2019</div>
+        <div class="alt-text">First indigenous president of Bolivia. Nationalized natural gas; revenues previously going to foreign corporations redirected to poverty reduction, education, healthcare, infrastructure. Bolivia went from one of South America's poorest to sustained economic growth with decreasing inequality. Removed in a coup in 2019, with evidence suggesting US involvement. Returned through elections in 2020.</div>
         <div class="alt-lesson">The system fights back against working alternatives because they are more threatening than failed ones.</div>
       </div>
 
       <div class="alt-card">
         <div class="alt-name">Rojava</div>
-        <div class="alt-where">Northern Syria — 2012 to Present</div>
+        <div class="alt-where">Northern Syria, 2012 to Present</div>
         <div class="alt-text">Kurdish autonomous region. Under constant military threat from ISIS, Turkey, and the Syrian government. Developed democratic confederalism with mandatory female co-leadership at every level, ecological sustainability built into governance, multi-ethnic inclusion. Created by people under siege, with limited resources, facing existential military threat.</div>
         <div class="alt-lesson">If they can build this under those conditions, what is possible under better ones?</div>
       </div>
 
       <div class="alt-card">
         <div class="alt-name">UPI</div>
-        <div class="alt-where">India — 2016 to Present</div>
+        <div class="alt-where">India, 2016 to Present</div>
         <div class="alt-text">Unified Payments Interface. India's homegrown payment infrastructure. Processes billions of transactions outside the dollar-SWIFT system. Now being adopted across Southeast Asia, Middle East, and Africa. The most successful example of financial infrastructure that reduces dollar dependency while building genuine capability. A rare example of Indian state building something that challenges the system rather than integrating into it.</div>
         <div class="alt-lesson">India's most important contribution to multipolar finance. More significant than any military posture.</div>
       </div>
 
       <div class="alt-card">
         <div class="alt-name">BRICS Expansion</div>
-        <div class="alt-where">Global — Ongoing</div>
-        <div class="alt-text">Now includes Saudi Arabia, UAE, Ethiopia, Iran, Egypt. Together representing 45% of world population, 35% of global GDP. Developing alternative payment systems. Gold accumulation. Challenging dollar reserve currency dominance. Not a utopian project — contains its own imperial ambitions (China). But represents the first serious structural challenge to dollar dominance since Bretton Woods.</div>
+        <div class="alt-where">Global, Ongoing</div>
+        <div class="alt-text">Now includes Saudi Arabia, UAE, Ethiopia, Iran, Egypt. Together representing 45% of world population, 35% of global GDP. Developing alternative payment systems. Gold accumulation. Challenging dollar reserve currency dominance. Not a utopian project, it contains its own imperial ambitions (China). But represents the first serious structural challenge to dollar dominance since Bretton Woods.</div>
         <div class="alt-lesson">The unipolar moment is ending. What replaces it is genuinely open.</div>
       </div>
     </div>
 
     <div class="callout reveal" style="margin-top:36px">
-      <strong>The pattern of resistance.</strong> 130+ countries abstained from or opposed Western positions in UN votes on Gaza. Global South solidarity is real. The protest movements across the world. Independent media. These are not sufficient — yet. But the overreach of the system is creating the conditions for its own challenge. Empires that overreach create the conditions for their own decline. This is not optimism. It is historical pattern.
+      <strong>The pattern of resistance.</strong> 130+ countries abstained from or opposed Western positions in UN votes on Gaza. Global South solidarity is real. The protest movements across the world. Independent media. These are not sufficient yet. But the overreach of the system is creating the conditions for its own challenge. Empires that overreach create the conditions for their own decline. This is not optimism. It is historical pattern.
     </div>
   </div>
 </section>
@@ -1405,7 +1430,7 @@ section.light .thinker.open .thinker-toggle { color:#666; }
       <div class="eyebrow">Chapter 12</div>
       <h2 class="headline">The Frontiers:<br>What Changes Everything</h2>
       <div class="divider"></div>
-      <p class="chapter-intro">Three forces are converging that could make everything we have analyzed obsolete — or infinitely worse. None of them are distant. All three are accelerating right now.</p>
+      <p class="chapter-intro">Three forces are converging that could make everything we have analyzed obsolete, or infinitely worse. None of them are distant. All three are accelerating right now.</p>
     </div>
 
     <div class="reveal" style="margin-bottom:40px">
@@ -1415,10 +1440,10 @@ section.light .thinker.open .thinker-toggle { color:#666; }
         <div>
           <div style="font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--dark-faint);margin-bottom:12px">What AI disrupts</div>
           <div class="numbered-list">
-            <div class="numbered-item"><div class="numbered-text" style="color:var(--dark-muted)">Labor value — cheap manufacturing advantage collapses</div></div>
-            <div class="numbered-item"><div class="numbered-text" style="color:var(--dark-muted)">Attention economy — unlimited generated content transforms engagement</div></div>
-            <div class="numbered-item"><div class="numbered-text" style="color:var(--dark-muted)">Human decision-making — AI makes faster decisions than oversight allows</div></div>
-            <div class="numbered-item"><div class="numbered-text" style="color:var(--dark-muted)">Military balance — autonomous weapons change all strategic equations</div></div>
+            <div class="numbered-item"><div class="numbered-text" style="color:var(--dark-muted)">Labor value: cheap manufacturing advantage collapses</div></div>
+            <div class="numbered-item"><div class="numbered-text" style="color:var(--dark-muted)">Attention economy: unlimited generated content transforms engagement</div></div>
+            <div class="numbered-item"><div class="numbered-text" style="color:var(--dark-muted)">Human decision-making: AI makes faster decisions than oversight allows</div></div>
+            <div class="numbered-item"><div class="numbered-text" style="color:var(--dark-muted)">Military balance: autonomous weapons change all strategic equations</div></div>
           </div>
         </div>
         <div>
@@ -1432,9 +1457,9 @@ section.light .thinker.open .thinker-toggle { color:#666; }
       <div class="eyebrow" style="color:#5a8fd4">Frontier 2: Monetary Transformation</div>
       <p style="color:var(--dark-muted);font-size:16px;line-height:1.75;margin-bottom:20px">The dollar system is 82 years old. Global monetary systems last 30–100 years before collapsing and being replaced. The next monetary architecture will redistribute power as fundamentally as Bretton Woods in 1944. Who designs it designs the next century.</p>
       <div class="card-grid">
-        <div class="card"><div class="card-title">CBDC — Digital Dollar</div><div class="card-text">Programmable money. Expiry dates. Complete transaction surveillance. Instant sanctions on individuals. The most powerful control tool ever invented. Dystopian potential matched by real government interest globally.</div></div>
-        <div class="card"><div class="card-title">BRICS Commodity Currency</div><div class="card-text">Gold-backed or commodity-backed alternative. Would end dollar's exorbitant privilege. Benefit resource-rich countries. India has opportunity here — significant gold holdings, resource base, UPI infrastructure already built.</div></div>
-        <div class="card"><div class="card-title">Decentralized Finance</div><div class="card-text">Blockchain enables transactions without banking system, contracts without legal system, finance without financial intermediaries. If this technology matures, the entire architecture we analyzed — the banks, dollar system, IMF — could become obsolete.</div></div>
+        <div class="card"><div class="card-title">CBDC: Digital Dollar</div><div class="card-text">Programmable money. Expiry dates. Complete transaction surveillance. Instant sanctions on individuals. The most powerful control tool ever invented. Dystopian potential matched by real government interest globally.</div></div>
+        <div class="card"><div class="card-title">BRICS Commodity Currency</div><div class="card-text">Gold-backed or commodity-backed alternative. Would end the dollar's exorbitant privilege. Benefit resource-rich countries. India has opportunity here: significant gold holdings, resource base, UPI infrastructure already built.</div></div>
+        <div class="card"><div class="card-title">Decentralized Finance</div><div class="card-text">Blockchain enables transactions without banking system, contracts without legal system, finance without financial intermediaries. If this technology matures, the entire architecture we analyzed: the banks, dollar system, IMF, could become obsolete.</div></div>
       </div>
     </div>
 
@@ -1442,7 +1467,7 @@ section.light .thinker.open .thinker-toggle { color:#666; }
       <div class="eyebrow" style="color:#7ab87a">Frontier 3: The Ecological Limit</div>
       <p style="color:var(--dark-muted);font-size:16px;line-height:1.75;margin-bottom:20px">Everything we analyzed assumes a stable enough planet to operate on. This assumption is increasingly questionable. And India is among the most climate-vulnerable large economies on earth.</p>
       <div class="callout" style="border-color:rgba(122,184,122,0.25);background:rgba(122,184,122,0.04)">
-        <strong style="color:#7ab87a">The Himalayan glacier retreat</strong> is not a distant abstraction. The glaciers feeding the Ganges and Yamuna are retreating measurably every year. Agra sits in the Gangetic plain dependent on this water system. The India-Pakistan water conflict — written into the 1960 Indus Waters Treaty for a climate that no longer exists — is among the most likely triggers for the next major regional conflict. Climate change is not a separate issue from everything we analyzed. It is the ultimate consequence of the system we analyzed.
+        <strong style="color:#7ab87a">The Himalayan glacier retreat</strong> is not a distant abstraction. The glaciers feeding the Ganges and Yamuna are retreating measurably every year. The India-Pakistan water conflict, written into the 1960 Indus Waters Treaty for a climate that no longer exists, is among the most likely triggers for the next major regional conflict. Climate change is not a separate issue from everything we analyzed. It is the ultimate consequence of the system we analyzed.
       </div>
     </div>
   </div>
@@ -1465,13 +1490,13 @@ section.light .thinker.open .thinker-toggle { color:#666; }
       <div class="path-option">
         <div class="path-num">01</div>
         <div class="path-name">Build Personal Sovereignty</div>
-        <div class="path-text">Mountain homestead. Multiple income streams independent of single employer. Real assets — land, skills, productive capacity. Community — relationships of genuine mutual support. Reduced dependency on the system you understand is unsustainable.</div>
+        <div class="path-text">Mountain homestead. Multiple income streams independent of single employer. Real assets: land, skills, productive capacity. Community: relationships of genuine mutual support. Reduced dependency on the system you understand is unsustainable.</div>
         <div class="path-cost">Rational and admirable but incomplete. You cannot fully exit a system that covers the whole planet.</div>
       </div>
       <div class="path-option">
         <div class="path-num">02</div>
         <div class="path-name">Build Within the System Strategically</div>
-        <div class="path-text">Use the system's tools — entrepreneurship, technology, capital markets — to build genuine value. Accumulate enough resources to have genuine agency. Use that agency to support alternatives. StateFile, Cortexity: solving real problems.</div>
+        <div class="path-text">Use the system's tools: entrepreneurship, technology, capital markets, to build genuine value. Accumulate enough resources to have genuine agency. Use that agency to support alternatives.</div>
         <div class="path-cost">Risks being absorbed. The system is very good at converting critics into participants.</div>
       </div>
       <div class="path-option">
@@ -1483,13 +1508,13 @@ section.light .thinker.open .thinker-toggle { color:#666; }
       <div class="path-option">
         <div class="path-num">04</div>
         <div class="path-name">Bear Witness and Educate</div>
-        <div class="path-text">Document. Analyze. Share understanding. Write the Substack piece on the Iran war. Publish the analysis that explains what CNN will not. The person who understands clearly and communicates honestly — even to one other person — breaks the manufactured consent the system depends on.</div>
+        <div class="path-text">Document. Analyze. Share understanding. Write the Substack piece on the Iran war. Publish the analysis that explains what CNN will not. The person who understands clearly and communicates honestly, even to one other person, breaks the manufactured consent the system depends on.</div>
         <div class="path-cost">Matters more than it seems. One honest conversation changes how a person sees the next ten things they encounter. Understanding spreads through trust, not broadcasts.</div>
       </div>
     </div>
 
     <div class="reveal" style="margin-top:48px">
-      <div class="eyebrow">Reading List — Track Your Progress</div>
+      <div class="eyebrow">Reading List: Track Your Progress</div>
       <div id="reading-list" style="margin-top:16px">
         <div class="reading-item" onclick="toggleRead(this)">
           <div class="read-check"></div>
@@ -1524,7 +1549,7 @@ section.light .thinker.open .thinker-toggle { color:#666; }
     </div>
 
     <div class="reveal" style="margin-top:48px;padding-top:40px;border-top:1px solid var(--border)">
-      <p class="subhead" style="color:var(--ink);max-width:580px">The world is burning in the specific places the tradition said it would burn. What you do with that knowledge — analytically and through your choices — is the question only you can answer.</p>
+      <p class="subhead" style="color:var(--ink);max-width:580px">The world is burning in the specific places the tradition said it would burn. What you do with that knowledge, analytically and through your choices, is the question only you can answer.</p>
       <div class="divider" style="margin-top:28px"></div>
       <div style="display:flex;gap:12px;margin-top:28px;flex-wrap:wrap">
         <a href="index.html" class="cta-btn primary" style="text-decoration:none">Read the Story Page</a>
