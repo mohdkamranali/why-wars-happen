@@ -249,6 +249,7 @@ section.light .timeline-text { color:#666; }
   margin-bottom:8px; line-height:1.3; color:var(--dark-text);
 }
 .card-text { font-size:14px; line-height:1.65; color:var(--dark-muted); }
+section.light .card-text, section.light-warm .card-text { color:#444; }
 .card-tag {
   display:inline-block; font-size:10px; letter-spacing:1.2px; text-transform:uppercase;
   color:var(--red); margin-bottom:10px; font-family:'DM Sans',sans-serif;
@@ -425,7 +426,7 @@ section.light .numbered-text { color:#555; }
 .position-cell:hover { background:var(--dark-3); }
 .position-role { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--dark-faint); margin-bottom:8px; }
 .position-title { font-family:'Fraunces',serif; font-size:18px; font-weight:600; margin-bottom:8px; }
-.position-desc { font-size:13px; line-height:1.6; color:var(--dark-muted); }
+.position-desc { font-size:13px; line-height:1.6; color:rgba(255,255,255,0.62); }
 
 /* ALTERNATIVE EXAMPLES */
 .alt-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; margin:28px 0; }
@@ -437,6 +438,7 @@ section.light .numbered-text { color:#555; }
 .alt-name { font-family:'Fraunces',serif; font-size:20px; font-weight:600; margin-bottom:4px; }
 .alt-where { font-size:11px; letter-spacing:1px; text-transform:uppercase; color:var(--dark-faint); margin-bottom:14px; }
 .alt-text { font-size:14px; line-height:1.7; color:var(--dark-muted); }
+section.light .alt-text, section.light-warm .alt-text { color:#444; }
 .alt-lesson { font-size:13px; color:rgba(122,184,122,0.8); margin-top:12px; font-style:italic; }
 
 /* PATH OPTIONS */
@@ -447,9 +449,77 @@ section.light .numbered-text { color:#555; }
 .path-num { font-family:'Fraunces',serif; font-size:36px; font-weight:800; color:var(--red); opacity:0.5; line-height:1; margin-bottom:10px; }
 .path-name { font-family:'Fraunces',serif; font-size:18px; font-weight:600; margin-bottom:8px; }
 .path-text { font-size:14px; line-height:1.65; color:var(--dark-muted); }
+section.light .path-text { color:#444; }
+section.light .path-num { color:var(--red); opacity:0.6; }
 .path-cost { font-size:12px; color:rgba(184,48,37,0.7); margin-top:10px; font-style:italic; }
+section.light .path-cost { color:var(--red); opacity:0.75; }
 
-/* RESPONSIVE */
+/* INTERACTIVE TOOLKIT FILTER */
+.toolkit-filter { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px; }
+.filter-btn {
+  font-size:11px; letter-spacing:1.2px; text-transform:uppercase;
+  padding:7px 14px; border:1px solid var(--border); background:var(--paper-dark);
+  color:#555; cursor:pointer; transition:all 0.2s; font-family:'DM Sans',sans-serif;
+}
+.filter-btn.active, .filter-btn:hover { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+.filter-btn.active.f-military { background:var(--red); border-color:var(--red); color:#fff; }
+.filter-btn.active.f-economic { background:var(--gold); border-color:var(--gold); color:#fff; }
+.filter-btn.active.f-political { background:var(--blue); border-color:var(--blue); color:#fff; }
+.filter-btn.active.f-cultural { background:#3a7a3a; border-color:#3a7a3a; color:#fff; }
+.filter-btn.active.f-tech { background:#6a3a9a; border-color:#6a3a9a; color:#fff; }
+.pill { transition: opacity 0.3s, transform 0.3s; }
+.pill.hidden { opacity:0; pointer-events:none; transform:scale(0.9); display:none; }
+
+/* COLLAPSIBLE THINKERS */
+.thinker { cursor:pointer; }
+.thinker-body { overflow:hidden; max-height:0; transition:max-height 0.4s ease; }
+.thinker.open .thinker-body { max-height:600px; }
+.thinker-toggle {
+  font-size:11px; letter-spacing:1px; text-transform:uppercase;
+  color:var(--dark-faint); margin-top:12px; display:flex; align-items:center; gap:6px;
+}
+.thinker.open .thinker-toggle { color:var(--dark-muted); }
+.thinker-toggle::after { content:'+ Read more'; }
+.thinker.open .thinker-toggle::after { content:'- Collapse'; }
+section.light .thinker-toggle { color:#aaa; }
+section.light .thinker.open .thinker-toggle { color:#666; }
+
+/* READING CHECKLIST */
+.reading-item {
+  display:flex; align-items:flex-start; gap:14px; padding:16px 0;
+  border-bottom:1px solid var(--border); cursor:pointer; transition:background 0.2s;
+}
+.reading-item:last-child { border-bottom:none; }
+.read-check {
+  width:20px; height:20px; border:2px solid var(--border); border-radius:2px;
+  flex-shrink:0; margin-top:2px; display:flex; align-items:center; justify-content:center;
+  transition:all 0.2s; background:var(--paper);
+}
+.reading-item.done .read-check { background:var(--red); border-color:var(--red); }
+.read-check::after { content:''; width:5px; height:9px; border-right:2px solid #fff; border-bottom:2px solid #fff; transform:rotate(45deg) translate(-1px,-1px); opacity:0; transition:opacity 0.2s; }
+.reading-item.done .read-check::after { opacity:1; }
+.read-title { font-family:'Fraunces',serif; font-size:16px; font-weight:600; color:var(--ink); margin-bottom:3px; transition:color 0.2s; }
+.reading-item.done .read-title { color:#aaa; text-decoration:line-through; }
+.read-author { font-size:13px; color:#888; }
+.read-order { font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--red); margin-bottom:4px; }
+.read-progress { font-size:12px; color:#888; margin-top:12px; }
+
+/* WAR TIMELINE INTERACTIVE */
+.war-item {
+  padding:20px 0; border-bottom:1px solid var(--border);
+  cursor:pointer;
+}
+.war-item:last-child { border-bottom:none; }
+.war-header { display:flex; align-items:center; gap:16px; }
+.war-year { font-family:'Fraunces',serif; font-size:20px; font-weight:700; color:var(--red); width:60px; flex-shrink:0; }
+.war-name { font-family:'Fraunces',serif; font-size:17px; font-weight:600; color:var(--ink); }
+.war-tag { font-size:10px; letter-spacing:1px; text-transform:uppercase; padding:3px 8px; background:var(--red-soft); color:var(--red); margin-left:auto; flex-shrink:0; }
+.war-detail { overflow:hidden; max-height:0; transition:max-height 0.35s ease; font-size:15px; line-height:1.7; color:#444; }
+.war-item.open .war-detail { max-height:400px; padding-top:12px; }
+.war-arrow { margin-left:auto; font-size:14px; color:#aaa; transition:transform 0.3s; flex-shrink:0; }
+.war-item.open .war-arrow { transform:rotate(180deg); }
+
+
 @media(max-width:700px) {
   .chapter-dots { display:none; }
   nav { padding:14px 16px; }
@@ -549,7 +619,7 @@ section.light .numbered-text { color:#555; }
         <div class="timeline-year">1600s</div>
         <div class="timeline-content">
           <div class="timeline-title" style="color:var(--ink)">The East India Company: Finance as Empire</div>
-          <div class="timeline-text">Britain did not colonize India through military force alone. The East India Company was a joint stock company. Investors in London funded conquest. India went from 23% of world GDP to 4% by the time British rule ended. Colonialism was as much a financial project as a military one. The infrastructure built was designed to extract resources, not to develop India.</div>
+          <div class="timeline-text">Britain did not colonize India through military force alone. The East India Company was a joint stock company. Investors in London funded conquest. India went from an estimated 23% of world GDP to under 4% by the time British rule ended — figures from economic historian Angus Maddison's dataset, cited widely by Tharoor. Colonialism was as much a financial project as a military one. The infrastructure built was designed to extract resources outward, not to develop India.</div>
         </div>
       </div>
       <div class="timeline-item">
@@ -669,68 +739,52 @@ section.light .numbered-text { color:#555; }
       <p class="chapter-intro" style="color:#555">War is the most visible method. But it is rarely the first. Most territories are opened before a single bomb falls. Here is the complete toolkit, organized by type.</p>
     </div>
 
-    <div class="reveal" style="margin-bottom:32px">
-      <div class="eyebrow" style="color:#c0392b">Military Methods</div>
-      <div class="pill-grid">
-        <div class="pill military">Direct Invasion</div>
-        <div class="pill military">Regime Change</div>
-        <div class="pill military">Civil War Instigation</div>
-        <div class="pill military">Proxy Warfare</div>
-        <div class="pill military">Targeted Assassination</div>
-        <div class="pill military">False Flag Operations</div>
-        <div class="pill military">Gunboat Diplomacy</div>
+    <div class="reveal" style="margin-bottom:16px">
+      <div class="toolkit-filter">
+        <button class="filter-btn active f-all" onclick="filterToolkit('all',this)">All methods</button>
+        <button class="filter-btn f-military" onclick="filterToolkit('military',this)">Military</button>
+        <button class="filter-btn f-economic" onclick="filterToolkit('economic',this)">Economic</button>
+        <button class="filter-btn f-political" onclick="filterToolkit('political',this)">Political</button>
+        <button class="filter-btn f-cultural" onclick="filterToolkit('cultural',this)">Cultural</button>
+        <button class="filter-btn f-tech" onclick="filterToolkit('tech',this)">Technology</button>
       </div>
     </div>
 
-    <div class="reveal" style="margin-bottom:32px">
-      <div class="eyebrow" style="color:var(--gold)">Economic Methods</div>
-      <div class="pill-grid">
-        <div class="pill economic">Sanctions</div>
-        <div class="pill economic">Debt Traps</div>
-        <div class="pill economic">Currency Attacks</div>
-        <div class="pill economic">One-sided Trade Agreements</div>
-        <div class="pill economic">Technology Dependency</div>
-        <div class="pill economic">SWIFT Exclusion</div>
-        <div class="pill economic">IMF Conditionality</div>
-        <div class="pill economic">Private Equity Extraction</div>
-      </div>
-    </div>
-
-    <div class="reveal" style="margin-bottom:32px">
-      <div class="eyebrow" style="color:#1a4a7a">Political Methods</div>
-      <div class="pill-grid">
-        <div class="pill political">Electoral Interference</div>
-        <div class="pill political">Color Revolutions</div>
-        <div class="pill political">Lawfare</div>
-        <div class="pill political">Corruption and Blackmail</div>
-        <div class="pill political">NGO Networks</div>
-        <div class="pill political">Think Tank Capture</div>
-        <div class="pill political">Diplomatic Isolation</div>
-      </div>
-    </div>
-
-    <div class="reveal" style="margin-bottom:32px">
-      <div class="eyebrow" style="color:#3a8a3a">Cultural Methods</div>
-      <div class="pill-grid">
-        <div class="pill cultural">Soft Power</div>
-        <div class="pill cultural">Consumer Culture Export</div>
-        <div class="pill cultural">Development Ideology</div>
-        <div class="pill cultural">University Elite Formation</div>
-        <div class="pill cultural">Religious Manipulation</div>
-        <div class="pill cultural">Media Narrative Control</div>
-      </div>
-    </div>
-
-    <div class="reveal" style="margin-bottom:40px">
-      <div class="eyebrow" style="color:#8a4ab8">Technology Methods</div>
-      <div class="pill-grid">
-        <div class="pill tech">Platform Dominance</div>
-        <div class="pill tech">AI Dominance</div>
-        <div class="pill tech">Surveillance Technology</div>
-        <div class="pill tech">Cyber Operations</div>
-        <div class="pill tech">Data Extraction</div>
-        <div class="pill tech">Financialization</div>
-      </div>
+    <div class="pill-grid reveal" id="toolkit-pills">
+      <div class="pill military" data-type="military">Direct Invasion</div>
+      <div class="pill military" data-type="military">Regime Change</div>
+      <div class="pill military" data-type="military">Civil War Instigation</div>
+      <div class="pill military" data-type="military">Proxy Warfare</div>
+      <div class="pill military" data-type="military">Targeted Assassination</div>
+      <div class="pill military" data-type="military">False Flag Operations</div>
+      <div class="pill military" data-type="military">Gunboat Diplomacy</div>
+      <div class="pill economic" data-type="economic">Sanctions</div>
+      <div class="pill economic" data-type="economic">Debt Traps</div>
+      <div class="pill economic" data-type="economic">Currency Attacks</div>
+      <div class="pill economic" data-type="economic">One-sided Trade Agreements</div>
+      <div class="pill economic" data-type="economic">Technology Dependency</div>
+      <div class="pill economic" data-type="economic">SWIFT Exclusion</div>
+      <div class="pill economic" data-type="economic">IMF Conditionality</div>
+      <div class="pill economic" data-type="economic">Private Equity Extraction</div>
+      <div class="pill political" data-type="political">Electoral Interference</div>
+      <div class="pill political" data-type="political">Color Revolutions</div>
+      <div class="pill political" data-type="political">Lawfare</div>
+      <div class="pill political" data-type="political">Corruption and Blackmail</div>
+      <div class="pill political" data-type="political">NGO Networks</div>
+      <div class="pill political" data-type="political">Think Tank Capture</div>
+      <div class="pill political" data-type="political">Diplomatic Isolation</div>
+      <div class="pill cultural" data-type="cultural">Soft Power</div>
+      <div class="pill cultural" data-type="cultural">Consumer Culture Export</div>
+      <div class="pill cultural" data-type="cultural">Development Ideology</div>
+      <div class="pill cultural" data-type="cultural">University Elite Formation</div>
+      <div class="pill cultural" data-type="cultural">Religious Manipulation</div>
+      <div class="pill cultural" data-type="cultural">Media Narrative Control</div>
+      <div class="pill tech" data-type="tech">Platform Dominance</div>
+      <div class="pill tech" data-type="tech">AI Dominance</div>
+      <div class="pill tech" data-type="tech">Surveillance Technology</div>
+      <div class="pill tech" data-type="tech">Cyber Operations</div>
+      <div class="pill tech" data-type="tech">Data Extraction</div>
+      <div class="pill tech" data-type="tech">Financialization</div>
     </div>
 
     <div class="reveal">
@@ -885,56 +939,71 @@ section.light .numbered-text { color:#555; }
       </div>
     </div>
 
-    <div class="reveal">
-      <div class="eyebrow">Documented Cases</div>
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-year" style="color:#c0392b">1953</div>
-          <div class="timeline-content">
-            <div class="timeline-title" style="color:var(--ink)">Iran — Operation Ajax</div>
-            <div class="timeline-text">Mosaddegh nationalizes Iranian oil. CIA and MI6 spend $1 million bribing military officers and street gangs to overthrow him. Officially confirmed 2013. Within weeks, American oil companies receive 40% of Iranian oil concessions they had previously been excluded from. The coup that explains everything that followed — including right now.</div>
-            <div style="margin-top:8px"><span class="evidence documented" style="background:rgba(122,184,122,0.08);color:rgba(80,160,80,0.9)">Documented: CIA confirmed 2013</span></div>
-          </div>
+    <div class="reveal" id="wars-accordion">
+      <div class="war-item open" onclick="toggleWar(this)">
+        <div class="war-header">
+          <div class="war-year">1953</div>
+          <div class="war-name">Iran — Operation Ajax</div>
+          <div class="war-tag">Covert</div>
+          <div class="war-arrow">▼</div>
         </div>
-        <div class="timeline-item">
-          <div class="timeline-year">1964</div>
-          <div class="timeline-content">
-            <div class="timeline-title" style="color:var(--ink)">Vietnam — Gulf of Tonkin</div>
-            <div class="timeline-text">North Vietnamese forces allegedly attack US ships. Congress authorizes massive escalation. Robert McNamara, the Defense Secretary who prosecuted the war, admitted before he died that the incident was fabricated. 58,000 Americans died. Millions of Vietnamese. Based on a false flag. Defense contractors and the permanent war economy benefited enormously.</div>
-            <div style="margin-top:8px"><span class="evidence documented" style="background:rgba(122,184,122,0.08);color:rgba(80,160,80,0.9)">Documented: McNamara admission</span></div>
-          </div>
+        <div class="war-detail">Mosaddegh nationalizes Iranian oil. CIA and MI6 spend $1 million bribing military officers and street gangs to overthrow him. Officially confirmed by the CIA in 2013. Within weeks, American oil companies receive 40% of Iranian oil concessions they had previously been excluded from. This coup is the root cause of the 1979 revolution, the hostage crisis, 45 years of sanctions, and the war currently being fought.
+          <div style="margin-top:10px"><span class="evidence documented" style="background:rgba(122,184,122,0.08);color:rgba(80,160,80,0.9)">Documented: CIA FOIA release 2013</span></div>
         </div>
-        <div class="timeline-item">
-          <div class="timeline-year">1980s</div>
-          <div class="timeline-content">
-            <div class="timeline-title" style="color:var(--ink)">Iran-Iraq War — Both Sides Funded</div>
-            <div class="timeline-text">US supplied intelligence and weapons to Iraq under Saddam Hussein, including components for chemical weapons used on Kurds. Simultaneously, in the Iran-Contra affair, the US was secretly selling weapons to Iran. Both sides. Same conflict. American weapons dealers playing both ends. This is the documented record, not speculation.</div>
-            <div style="margin-top:8px"><span class="evidence documented" style="background:rgba(122,184,122,0.08);color:rgba(80,160,80,0.9)">Documented: Iran-Contra hearings 1987</span></div>
-          </div>
+      </div>
+      <div class="war-item" onclick="toggleWar(this)">
+        <div class="war-header">
+          <div class="war-year">1964</div>
+          <div class="war-name">Vietnam — Gulf of Tonkin</div>
+          <div class="war-tag">False Pretext</div>
+          <div class="war-arrow">▼</div>
         </div>
-        <div class="timeline-item">
-          <div class="timeline-year">2003</div>
-          <div class="timeline-content">
-            <div class="timeline-title" style="color:var(--ink)">Iraq — Manufactured War</div>
-            <div class="timeline-text">WMD intelligence fabricated or massively distorted. Downing Street Memo: intelligence "fixed around the policy." Iraq had the world's fifth largest proven oil reserves. After invasion: state oil company dismantled, oil fields opened to foreign companies. Halliburton received $39.5 billion in contracts. Dick Cheney's former company. Cheney was Vice President who pushed hardest for invasion.</div>
-            <div style="margin-top:8px"><span class="evidence documented" style="background:rgba(122,184,122,0.08);color:rgba(80,160,80,0.9)">Documented: Downing Street Memo, 2005 leak</span></div>
-          </div>
+        <div class="war-detail">North Vietnamese forces allegedly attack US ships twice. Congress authorizes massive escalation. Robert McNamara later expressed serious doubt in his memoir and in the documentary The Fog of War that the second attack ever occurred — stating the decision to escalate was likely based on unreliable intelligence. 58,000 Americans died. Millions of Vietnamese. The war was built on contested intelligence used to justify a predetermined policy.
+          <div style="margin-top:10px"><span class="evidence documented" style="background:rgba(122,184,122,0.08);color:rgba(80,160,80,0.9)">Source: McNamara, In Retrospect, 1995; The Fog of War, 2003</span></div>
         </div>
-        <div class="timeline-item">
-          <div class="timeline-year">2011</div>
-          <div class="timeline-content">
-            <div class="timeline-title" style="color:var(--ink)">Libya — Africa's Largest Oil Reserves</div>
-            <div class="timeline-text">Gaddafi was planning a gold-backed African currency that would allow African nations to trade oil without dollars. Libya had Africa's largest proven oil reserves, state-controlled. NATO intervention. Gaddafi killed. Hillary Clinton on video: "We came, we saw, he died." Oil sector fragmented. $67 billion sovereign wealth fund frozen. The gold currency plan died.</div>
-            <div style="margin-top:8px"><span class="evidence documented" style="background:rgba(122,184,122,0.08);color:rgba(80,160,80,0.9)">Documented: Clinton CBS interview 2011</span></div>
-          </div>
+      </div>
+      <div class="war-item" onclick="toggleWar(this)">
+        <div class="war-header">
+          <div class="war-year">1980s</div>
+          <div class="war-name">Iran-Iraq War — Both Sides Funded</div>
+          <div class="war-tag">Proxy</div>
+          <div class="war-arrow">▼</div>
         </div>
-        <div class="timeline-item">
-          <div class="timeline-year" style="color:var(--red)">2026</div>
-          <div class="timeline-content">
-            <div class="timeline-title" style="color:var(--ink)">Iran — The Current War</div>
-            <div class="timeline-text">Operation Roaring Lion (Israel) / Operation Epic Fury (US). Began February 28, 2026. Khamenei assassinated in opening strikes on Tehran. 1,230+ dead in Iran. Iran has launched 500+ ballistic missiles and 2,000+ drones across 9 countries. Natanz nuclear facility struck. US submarine sank Iranian warship near Sri Lanka. India silent. Only 25% American public support.</div>
-            <div style="margin-top:8px"><span class="evidence documented" style="background:rgba(122,184,122,0.08);color:rgba(80,160,80,0.9)">Live — Day 8</span></div>
-          </div>
+        <div class="war-detail">US supplied intelligence and weapons to Iraq under Saddam Hussein, including components for chemical weapons used on Kurds. Simultaneously, in the Iran-Contra affair, the US was secretly selling weapons to Iran. Both sides. Same conflict. The Iran-Contra hearings in 1987 confirmed this in congressional testimony.
+          <div style="margin-top:10px"><span class="evidence documented" style="background:rgba(122,184,122,0.08);color:rgba(80,160,80,0.9)">Documented: Iran-Contra Congressional Hearings, 1987</span></div>
+        </div>
+      </div>
+      <div class="war-item" onclick="toggleWar(this)">
+        <div class="war-header">
+          <div class="war-year">2003</div>
+          <div class="war-name">Iraq — Manufactured War</div>
+          <div class="war-tag">Fabricated Intelligence</div>
+          <div class="war-arrow">▼</div>
+        </div>
+        <div class="war-detail">WMD intelligence fabricated or massively distorted. The Downing Street Memo, leaked British Cabinet minutes from July 2002, stated the intelligence was "being fixed around the policy." Iraq had the world's second largest proven oil reserves. After invasion: state oil company dismantled, oil fields opened to foreign companies. Halliburton received $39.5 billion in contracts. Dick Cheney was Halliburton's former CEO and the Vice President who pushed hardest for invasion.
+          <div style="margin-top:10px"><span class="evidence documented" style="background:rgba(122,184,122,0.08);color:rgba(80,160,80,0.9)">Documented: Downing Street Memo, leaked 2005</span></div>
+        </div>
+      </div>
+      <div class="war-item" onclick="toggleWar(this)">
+        <div class="war-header">
+          <div class="war-year">2011</div>
+          <div class="war-name">Libya — Gold Currency Plan Killed</div>
+          <div class="war-tag">Resource Control</div>
+          <div class="war-arrow">▼</div>
+        </div>
+        <div class="war-detail">Gaddafi was planning a gold-backed African currency that would allow African nations to trade oil without dollars. Libya had Africa's largest proven oil reserves, state-controlled. NATO intervention followed. Gaddafi killed. Hillary Clinton, on video: "We came, we saw, he died." Oil sector fragmented. $67 billion in Libyan sovereign wealth frozen. The gold currency plan died.
+          <div style="margin-top:10px"><span class="evidence documented" style="background:rgba(122,184,122,0.08);color:rgba(80,160,80,0.9)">Source: Clinton CBS interview, October 2011</span></div>
+        </div>
+      </div>
+      <div class="war-item open" onclick="toggleWar(this)" style="border-left:2px solid var(--red);padding-left:16px">
+        <div class="war-header">
+          <div class="war-year" style="color:var(--red)">2026</div>
+          <div class="war-name">Iran — The Current War</div>
+          <div class="war-tag" style="color:var(--red)">Live — Day 8</div>
+          <div class="war-arrow">▼</div>
+        </div>
+        <div class="war-detail" style="padding-top:12px">Operation Roaring Lion (Israel) / Operation Epic Fury (US). Began February 28, 2026. Khamenei assassinated in opening strikes on Tehran. 1,230+ dead in Iran. Iran launched 500+ ballistic missiles and 2,000+ drones across 9 countries. Natanz nuclear facility struck. US submarine sank Iranian warship near Sri Lanka. India silent. Only 25% of the American public supports the operation. US Senate voted 53-47 to continue without formal Congressional authorization.
+          <div style="margin-top:10px"><span class="evidence documented" style="background:rgba(122,184,122,0.08);color:rgba(80,160,80,0.9)">Ongoing — March 2026</span></div>
         </div>
       </div>
     </div>
@@ -1067,7 +1136,7 @@ section.light .numbered-text { color:#555; }
           <div class="tier-num">06</div>
           <div class="tier-name">The Media Complex</div>
         </div>
-        <div class="tier-examples">Six corporations control ~90% of American media: Comcast (NBC, MSNBC), Disney (ABC, ESPN), News Corp (Fox, WSJ), Warner Bros Discovery (CNN, HBO), Paramount (CBS), Sony. These corporations have defense contractor shareholders, are owned substantially by BlackRock and Vanguard, depend on government for regulatory approvals, and have boards interlocked with finance and defense. Before Iraq War every major American media outlet supported invasion. Same institutions, same journalists, no accountability after the lies were exposed.</div>
+        <div class="tier-examples">Six corporations control the majority of American media: Comcast (NBC, MSNBC, Universal), Disney (ABC, ESPN, Pixar), News Corp / Fox Corp (Fox News, Wall Street Journal, New York Post), Warner Bros Discovery (CNN, HBO, TBS), Paramount Global (CBS, MTV, Nickelodeon), and iHeartMedia (850+ radio stations). These corporations have defense contractor shareholders, are owned substantially by BlackRock and Vanguard, depend on government for regulatory approvals, and have boards interlocked with finance and defense. Before the Iraq War every major American media outlet supported the invasion. Same institutions, same journalists, no accountability after the lies were exposed.</div>
       </div>
     </div>
 
@@ -1173,7 +1242,7 @@ section.light .numbered-text { color:#555; }
     </div>
 
     <div class="callout reveal" style="margin-top:36px">
-      <strong>What this means practically.</strong> The conversation you had with your friend at 2am — two conditioned minds trying to think past their conditioning — that is what seeing through the system looks like in practice. Not a perfect view from outside. A partial, contested, honestly uncertain view from inside. The friction of genuine disagreement between two people who trust each other is more clarifying than any amount of solo analysis. That conversation was the methodology.
+      <strong>What this means practically.</strong> Seeing through the system does not require a perfect view from outside. It requires honest friction between people willing to question what they have been taught. A partial, contested, genuinely uncertain view from inside is more valuable than confident analysis built on unexamined assumptions. The methodology is the conversation itself — not the conclusion it reaches.
     </div>
   </div>
 </section>
@@ -1409,26 +1478,49 @@ section.light .numbered-text { color:#555; }
         <div class="path-num">03</div>
         <div class="path-name">Organize and Resist</div>
         <div class="path-text">Join or build movements for systemic change. Kerala model. Labor organizing. Political organizing. Community building outside the dominant frameworks. The hardest path but the one with the most systemic impact.</div>
-        <div class="path-cost">Requires sacrifice. You've already experienced losing friends for speaking honestly. The cost increases with visibility.</div>
+        <div class="path-cost">Requires sacrifice. Speaking honestly about power costs relationships and sometimes livelihoods. The cost increases with visibility.</div>
       </div>
       <div class="path-option">
         <div class="path-num">04</div>
         <div class="path-name">Bear Witness and Educate</div>
         <div class="path-text">Document. Analyze. Share understanding. Write the Substack piece on the Iran war. Publish the analysis that explains what CNN will not. The person who understands clearly and communicates honestly — even to one other person — breaks the manufactured consent the system depends on.</div>
-        <div class="path-cost">Matters more than it seems. Your friend at 2am is a naval officer. He goes back to his post carrying that conversation.</div>
+        <div class="path-cost">Matters more than it seems. One honest conversation changes how a person sees the next ten things they encounter. Understanding spreads through trust, not broadcasts.</div>
       </div>
     </div>
 
     <div class="reveal" style="margin-top:48px">
-      <div class="eyebrow">Where to Start Reading</div>
-      <div class="card-grid-light">
-        <div class="card-light"><div class="card-tag">Start Here</div><div class="card-title">Confessions of an Economic Hit Man</div><div class="card-text">John Perkins. The IMF debt trap told from the inside by a practitioner. The most accessible entry point to the entire framework.</div></div>
-        <div class="card-light"><div class="card-tag">Then This</div><div class="card-title">The Shock Doctrine</div><div class="card-text">Naomi Klein. How crisis is used to open new territories. Documents the pattern case by case with primary sources.</div></div>
-        <div class="card-light"><div class="card-tag">Then This</div><div class="card-title">Debt: The First 5,000 Years</div><div class="card-text">David Graeber. Reframes money and debt from the beginning. The theoretical foundation that makes everything else make sense.</div></div>
-        <div class="card-light"><div class="card-tag">Read the Enemy's Manual</div><div class="card-title">The Grand Chessboard</div><div class="card-text">Zbigniew Brzezinski. American imperial strategy stated explicitly. Central Asia as key to global dominance. Written 1997. Describes 2026.</div></div>
-        <div class="card-light"><div class="card-tag">For India</div><div class="card-title">An Era of Darkness</div><div class="card-text">Shashi Tharoor. The economic case against British colonialism. India at 23% of world GDP when Britain arrived. 4% when it left. The foundation.</div></div>
-        <div class="card-light"><div class="card-tag">For the Mind</div><div class="card-title">Freedom from the Known</div><div class="card-text">Jiddu Krishnamurti. Can the mind conditioned by the system see it clearly? The deepest question asked accessibly. Read this last.</div></div>
+      <div class="eyebrow">Reading List — Track Your Progress</div>
+      <div id="reading-list" style="margin-top:16px">
+        <div class="reading-item" onclick="toggleRead(this)">
+          <div class="read-check"></div>
+          <div><div class="read-order">Start Here</div><div class="read-title">Confessions of an Economic Hit Man</div><div class="read-author">John Perkins — The IMF debt trap told from the inside by a practitioner</div></div>
+        </div>
+        <div class="reading-item" onclick="toggleRead(this)">
+          <div class="read-check"></div>
+          <div><div class="read-order">Then This</div><div class="read-title">The Shock Doctrine</div><div class="read-author">Naomi Klein — How crisis is used to open new territories, case by case with primary sources</div></div>
+        </div>
+        <div class="reading-item" onclick="toggleRead(this)">
+          <div class="read-check"></div>
+          <div><div class="read-order">Then This</div><div class="read-title">Debt: The First 5,000 Years</div><div class="read-author">David Graeber — Reframes money and debt from the beginning</div></div>
+        </div>
+        <div class="reading-item" onclick="toggleRead(this)">
+          <div class="read-check"></div>
+          <div><div class="read-order">Read the Enemy's Manual</div><div class="read-title">The Grand Chessboard</div><div class="read-author">Zbigniew Brzezinski — American imperial strategy stated explicitly. Written 1997. Describes 2026.</div></div>
+        </div>
+        <div class="reading-item" onclick="toggleRead(this)">
+          <div class="read-check"></div>
+          <div><div class="read-order">For India</div><div class="read-title">An Era of Darkness</div><div class="read-author">Shashi Tharoor — The economic case against British colonialism</div></div>
+        </div>
+        <div class="reading-item" onclick="toggleRead(this)">
+          <div class="read-check"></div>
+          <div><div class="read-order">For Structure</div><div class="read-title">The Wretched of the Earth</div><div class="read-author">Frantz Fanon — How colonialism damages the colonized and how liberation movements get co-opted</div></div>
+        </div>
+        <div class="reading-item" onclick="toggleRead(this)">
+          <div class="read-check"></div>
+          <div><div class="read-order">For the Mind</div><div class="read-title">Freedom from the Known</div><div class="read-author">Jiddu Krishnamurti — Can the conditioned mind see its own conditioning? Read this last.</div></div>
+        </div>
       </div>
+      <div class="read-progress" id="read-progress">0 of 7 read</div>
     </div>
 
     <div class="reveal" style="margin-top:48px;padding-top:40px;border-top:1px solid var(--border)">
@@ -1454,6 +1546,8 @@ section.light .numbered-text { color:#555; }
     <a href="#s7" style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--dark-muted);text-decoration:none">Who Runs It</a>
     <span style="color:var(--dark-line)">|</span>
     <a href="#what-now" style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--dark-muted);text-decoration:none">What Now</a>
+    <span style="color:var(--dark-line)">|</span>
+    <a href="sources.html" style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--red);text-decoration:none">Sources</a>
   </div>
 </footer>
 
@@ -1494,6 +1588,31 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 reveals.forEach(el => observer.observe(el));
+
+// Toolkit filter
+function filterToolkit(type, btn) {
+  document.querySelectorAll('.toolkit-filter .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#toolkit-pills .pill').forEach(pill => {
+    if (type === 'all' || pill.dataset.type === type) {
+      pill.style.display = '';
+    } else {
+      pill.style.display = 'none';
+    }
+  });
+}
+
+// War accordion
+function toggleWar(item) { item.classList.toggle('open'); }
+
+// Reading checklist
+function toggleRead(item) {
+  item.classList.toggle('done');
+  const items = document.querySelectorAll('.reading-item');
+  const done = document.querySelectorAll('.reading-item.done').length;
+  const el = document.getElementById('read-progress');
+  if (el) el.textContent = done + ' of ' + items.length + ' read';
+}
 
 updateDots();
 </script>
