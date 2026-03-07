@@ -41,6 +41,10 @@ body {
   line-height: 1.8;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  hyphens: none;
+  -webkit-hyphens: none;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 
 /* PROGRESS */
@@ -500,19 +504,20 @@ section.light .thinker.open .thinker-toggle { color:#666; }
 .read-order { font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--red); margin-bottom:4px; }
 .read-progress { font-size:12px; color:#888; margin-top:12px; }
 
-/* WAR TIMELINE INTERACTIVE */
+/* WAR ACCORDION MOBILE */
 .war-item {
   padding:20px 0; border-bottom:1px solid var(--border);
   cursor:pointer;
 }
 .war-item:last-child { border-bottom:none; }
-.war-header { display:flex; align-items:center; gap:16px; }
-.war-year { font-family:'Fraunces',serif; font-size:20px; font-weight:700; color:var(--red); width:60px; flex-shrink:0; }
-.war-name { font-family:'Fraunces',serif; font-size:17px; font-weight:600; color:var(--ink); }
-.war-tag { font-size:10px; letter-spacing:1px; text-transform:uppercase; padding:3px 8px; background:var(--red-soft); color:var(--red); margin-left:auto; flex-shrink:0; }
-.war-detail { overflow:hidden; max-height:0; transition:max-height 0.35s ease; font-size:15px; line-height:1.7; color:#444; }
-.war-item.open .war-detail { max-height:400px; padding-top:12px; }
-.war-arrow { margin-left:auto; font-size:14px; color:#aaa; transition:transform 0.3s; flex-shrink:0; }
+.war-header { display:grid; grid-template-columns:64px 1fr auto; gap:0 12px; align-items:start; }
+.war-year { font-family:'Fraunces',serif; font-size:20px; font-weight:700; color:var(--red); padding-top:2px; }
+.war-name { font-family:'Fraunces',serif; font-size:17px; font-weight:600; color:var(--ink); line-height:1.3; }
+.war-tag-row { display:flex; gap:8px; align-items:center; margin-top:4px; }
+.war-tag { font-size:10px; letter-spacing:1px; text-transform:uppercase; padding:3px 8px; background:var(--red-soft); color:var(--red); display:inline-block; }
+.war-detail { overflow:hidden; max-height:0; transition:max-height 0.35s ease; font-size:15px; line-height:1.7; color:#444; grid-column:1/-1; }
+.war-item.open .war-detail { max-height:500px; padding-top:12px; }
+.war-arrow { font-size:12px; color:#aaa; transition:transform 0.3s; padding-top:4px; }
 .war-item.open .war-arrow { transform:rotate(180deg); }
 
 
@@ -534,11 +539,10 @@ section.light .thinker.open .thinker-toggle { color:#666; }
   .pill { font-size:11px; padding:6px 11px; }
 
   /* War accordion mobile */
-  .war-header { flex-wrap:wrap; gap:6px; }
-  .war-year { font-size:17px; width:50px; }
-  .war-name { font-size:15px; flex:1; min-width:0; }
+  .war-header { grid-template-columns:52px 1fr auto; gap:0 8px; }
+  .war-year { font-size:16px; }
+  .war-name { font-size:15px; }
   .war-tag { font-size:9px; padding:2px 7px; }
-  .war-arrow { margin-left:0; }
   .war-detail { font-size:14px; }
 
   /* Reading list mobile */
@@ -552,9 +556,12 @@ section.light .thinker.open .thinker-toggle { color:#666; }
   /* Two col stacks */
   .two-col { grid-template-columns:1fr; gap:20px; }
 
-  /* Timeline */
-  .timeline-item { grid-template-columns:60px 1fr; gap:0 12px; }
-  .timeline-year { font-size:12px; }
+  /* Timeline - collapse to single column */
+  .timeline-item { grid-template-columns:1fr; gap:0; }
+  .timeline-item::before { display:none; }
+  .timeline-year { text-align:left; font-size:13px; margin-bottom:4px; }
+  .timeline-title { font-size:16px; }
+  .timeline-text { font-size:14px; }
 }
 </style>
 </head>
@@ -968,8 +975,7 @@ section.light .thinker.open .thinker-toggle { color:#666; }
       <div class="war-item open" onclick="toggleWar(this)">
         <div class="war-header">
           <div class="war-year">1953</div>
-          <div class="war-name">Iran: Operation Ajax</div>
-          <div class="war-tag">Covert</div>
+          <div><div class="war-name">Iran: Operation Ajax</div><div class="war-tag-row"><span class="war-tag">Covert</span></div></div>
           <div class="war-arrow">▼</div>
         </div>
         <div class="war-detail">Mosaddegh nationalizes Iranian oil. CIA and MI6 spend $1 million bribing military officers and street gangs to overthrow him. Officially confirmed by the CIA in 2013. Within weeks, American oil companies receive 40% of Iranian oil concessions they had previously been excluded from. This coup is the root cause of the 1979 revolution, the hostage crisis, 45 years of sanctions, and the war currently being fought.
@@ -979,8 +985,7 @@ section.light .thinker.open .thinker-toggle { color:#666; }
       <div class="war-item" onclick="toggleWar(this)">
         <div class="war-header">
           <div class="war-year">1964</div>
-          <div class="war-name">Vietnam: Gulf of Tonkin</div>
-          <div class="war-tag">False Pretext</div>
+          <div><div class="war-name">Vietnam: Gulf of Tonkin</div><div class="war-tag-row"><span class="war-tag">False Pretext</span></div></div>
           <div class="war-arrow">▼</div>
         </div>
         <div class="war-detail">North Vietnamese forces allegedly attack US ships twice. Congress authorizes massive escalation. Robert McNamara later expressed serious doubt in his memoir and in the documentary The Fog of War that the second attack ever occurred, stating the decision to escalate was likely based on unreliable intelligence. 58,000 Americans died. Millions of Vietnamese. The war was built on contested intelligence used to justify a predetermined policy.
@@ -990,8 +995,7 @@ section.light .thinker.open .thinker-toggle { color:#666; }
       <div class="war-item" onclick="toggleWar(this)">
         <div class="war-header">
           <div class="war-year">1980s</div>
-          <div class="war-name">Iran-Iraq War: Both Sides Funded</div>
-          <div class="war-tag">Proxy</div>
+          <div><div class="war-name">Iran-Iraq War: Both Sides Funded</div><div class="war-tag-row"><span class="war-tag">Proxy</span></div></div>
           <div class="war-arrow">▼</div>
         </div>
         <div class="war-detail">US supplied intelligence and weapons to Iraq under Saddam Hussein, including components for chemical weapons used on Kurds. Simultaneously, in the Iran-Contra affair, the US was secretly selling weapons to Iran. Both sides. Same conflict. The Iran-Contra hearings in 1987 confirmed this in congressional testimony.
@@ -1001,8 +1005,7 @@ section.light .thinker.open .thinker-toggle { color:#666; }
       <div class="war-item" onclick="toggleWar(this)">
         <div class="war-header">
           <div class="war-year">2003</div>
-          <div class="war-name">Iraq: Manufactured War</div>
-          <div class="war-tag">Fabricated Intelligence</div>
+          <div><div class="war-name">Iraq: Manufactured War</div><div class="war-tag-row"><span class="war-tag">Fabricated Intelligence</span></div></div>
           <div class="war-arrow">▼</div>
         </div>
         <div class="war-detail">WMD intelligence fabricated or massively distorted. The Downing Street Memo, leaked British Cabinet minutes from July 2002, stated the intelligence was "being fixed around the policy." Iraq had the world's second largest proven oil reserves. After invasion: state oil company dismantled, oil fields opened to foreign companies. Halliburton received $39.5 billion in contracts. Dick Cheney was Halliburton's former CEO and the Vice President who pushed hardest for invasion.
@@ -1012,8 +1015,7 @@ section.light .thinker.open .thinker-toggle { color:#666; }
       <div class="war-item" onclick="toggleWar(this)">
         <div class="war-header">
           <div class="war-year">2011</div>
-          <div class="war-name">Libya: Gold Currency Plan Killed</div>
-          <div class="war-tag">Resource Control</div>
+          <div><div class="war-name">Libya: Gold Currency Plan Killed</div><div class="war-tag-row"><span class="war-tag">Resource Control</span></div></div>
           <div class="war-arrow">▼</div>
         </div>
         <div class="war-detail">Gaddafi was planning a gold-backed African currency that would allow African nations to trade oil without dollars. Libya had Africa's largest proven oil reserves, state-controlled. NATO intervention followed. Gaddafi killed. Hillary Clinton, on video: "We came, we saw, he died." Oil sector fragmented. $67 billion in Libyan sovereign wealth frozen. The gold currency plan died.
@@ -1023,8 +1025,7 @@ section.light .thinker.open .thinker-toggle { color:#666; }
       <div class="war-item open" onclick="toggleWar(this)" style="border-left:2px solid var(--red);padding-left:16px">
         <div class="war-header">
           <div class="war-year" style="color:var(--red)">2026</div>
-          <div class="war-name">Iran: The Current War</div>
-          <div class="war-tag" style="color:var(--red)">Live: Day 8</div>
+          <div><div class="war-name">Iran: The Current War</div><div class="war-tag-row"><span class="war-tag" style="color:var(--red)">Live: Day 8</span></div></div>
           <div class="war-arrow">▼</div>
         </div>
         <div class="war-detail" style="padding-top:12px">Operation Roaring Lion (Israel) / Operation Epic Fury (US). Began February 28, 2026. Khamenei assassinated in opening strikes on Tehran. 1,230+ dead in Iran. Iran launched 500+ ballistic missiles and 2,000+ drones across 9 countries. Natanz nuclear facility struck. US submarine sank Iranian warship near Sri Lanka. India silent. Only 25% of the American public supports the operation. US Senate voted 53-47 to continue without formal Congressional authorization.
